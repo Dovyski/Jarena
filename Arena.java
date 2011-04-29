@@ -11,6 +11,7 @@ import java.io.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.util.Vector;
+import java.lang.reflect.Constructor;
 
 class Arena extends JFrame implements Runnable
 {
@@ -28,7 +29,6 @@ class Arena extends JFrame implements Runnable
 	private Vector<Entidade> morrendo;
 	private Entidade[][] mapa;
 	private Desenhista desenhista;
-	private ContextoArena contexto;
 	
 	public Arena() {
 	    super("Arena PR-2011-T8");
@@ -59,13 +59,14 @@ class Arena extends JFrame implements Runnable
 		entidades 	= new Vector<Entidade>();
 		nascendo 	= new Vector<Entidade>();
 		morrendo	= new Vector<Entidade>();
-		contexto	= new ContextoArena(this);
 	}
 	
 	private void adicionaAgentes() {
 		// TODO: criar os agentes...
 		AgenteDummy a = new AgenteDummy(0, 1, Constants.ENTIDADE_ENERGIA_INICIAL);
+		PontoEnergia p = new PontoEnergia(0, 1, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL);
 		adicionaEntidade(a);
+		adicionaEntidade(p);
 	}
 	
 	private void adicionaPontosEnergia() {
@@ -104,7 +105,9 @@ class Arena extends JFrame implements Runnable
 		desenhista.repaint();
 		
 		for(Entidade e:entidades) {	
-			e.update();
+			if(!e.isMorta()) {
+				e.update();
+			}
 		} 
 		
 		if(nascendo.size() > 0) {
@@ -120,14 +123,29 @@ class Arena extends JFrame implements Runnable
 		}
 	}
 	
-	private void adicionaEntidade(Entidade e) {
-		e.setContexto(contexto);
+	public void adicionaEntidade(Entidade e) {
+		e.setArena(this);
 		entidades.add(e);
 		
 		System.out.println("[NASCEU] " + e);
 	}
-  
-	public static void main(String arg[]) {
-		new Arena();
+	
+	public void removeEntidade(Entidade entidade) {	
+		agendaMorte(entidade);
+	}
+	
+	public void divideEntidade(Entidade entidade) {
+		try {
+			Class[] argsConstrutor = new Class[] { Integer.class, Integer.class, Integer.class };
+			
+			Class classe			= entidade.getClass();
+			Constructor construtor 	= classe.getConstructor(argsConstrutor);
+			
+			Entidade nova = (Entidade) construtor.newInstance(entidade.getX(), entidade.getY(), entidade.getEnergia());
+			agendaNascimento(nova);
+			
+		} catch(Exception e) {
+			System.out.println("Erro na hora de dividir a entidade!" + e.getMessage());
+		}
 	}
 }

@@ -24,11 +24,17 @@ class Constants
 	// todos os agentes
 	public static final long INTERVALO_UPDATE 					= 100;
 	
-	// Quanto de energia uma entidade nasce
-	public static final int ENTIDADE_ENERGIA_INICIAL 			= 400;	
+	// Informações sobre entidade
+	public static final int ENTIDADE_ENERGIA_INICIAL 			= 10;	
 	public static final int ENTIDADE_ENERGIA_GASTO_ANDAR 		= 2;
 	public static final int ENTIDADE_ENERGIA_GASTO_VIVER 		= 1;
 	public static final int ENTIDADE_ENERGIA_GASTO_DIVIDIR 		= 20;
 	public static final int ENTIDADE_DANO_COMBATE 				= 5;
 	public static final int ENTIDADE_VELOCIDADE 				= 10;
+	
+	// Informações sobre os pontos de energia
+	public static final int PONTO_ENERGIA_SUPRIMENTO_INICIAL		= 1000;
+	public static final int PONTO_ENERGIA_REGENERA_TURNO			= 0;
+	public static final int PONTO_ENERGIA_ENTREGA_TURNO				= ENTIDADE_ENERGIA_GASTO_VIVER + ENTIDADE_ENERGIA_GASTO_ANDAR + 1;
+	public static final double PONTO_ENERGIA_AREA					= 200;
 }

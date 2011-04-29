@@ -26,7 +26,7 @@ abstract class Entidade
 	private int y;
 	private int tipoDesenho; // tipo de desenho
 	private int energia;
-	private ContextoArena contexto;
+	private Arena arena;
 	private int id;
 
 	abstract void update();
@@ -50,16 +50,16 @@ abstract class Entidade
 		}
 	}
 	
+	public void ganhaEnergia(int quanto) {
+		this.energia += quanto;
+	}
+	
 	public void morre() {
-		getContexto().removeEntidade(this);
+		getArena().removeEntidade(this);
 	} 
 	
 	public final int getEnergia() {
 		return this.energia;
-	}
-	
-	public void setContexto(ContextoArena contexto) {
-		this.contexto = contexto;
 	}
 	
 	public int getX() {
@@ -78,8 +78,12 @@ abstract class Entidade
 		y += quanto;
 	}
 	
-	public ContextoArena getContexto() {
-		return contexto;
+	public void setArena(Arena a) {
+		this.arena = a;
+	}
+	
+	public Arena getArena() {
+		return this.arena;
 	}
 	
 	public void setTipoDesenho(int tipo) {

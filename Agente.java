@@ -9,6 +9,7 @@ abstract class Agente extends Entidade
 {	
 	private int direcao;
 	private boolean parado;	
+	private boolean avisouMorte;	
 	
 	abstract void pensa();
 	abstract void recebeuEnergia();
@@ -83,18 +84,24 @@ abstract class Agente extends Entidade
 	public Agente(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);
 		setDirecao(geraDirecaoAleatoria());
+		
+		avisouMorte = false;
 	}
 	
 	public final void gastaEnergia(int quanto) {
 		super.gastaEnergia(quanto);
 	}
 	
-	public final void update() {
-		pensa();
-		
+	public final void ganhaEnergia(int quanto) {
+		super.ganhaEnergia(quanto);
+	}
+	
+	public final void update() {		
 		if(isMorta()) {
 			return;
 		}
+		
+		pensa();
 		
 		if(!isParado()) {
 			movePara(getDirecao());
@@ -153,7 +160,7 @@ abstract class Agente extends Entidade
 			gastaEnergia(Constants.ENTIDADE_ENERGIA_GASTO_DIVIDIR);
 			gastaEnergia(getEnergia() / 2);
 			
-			getContexto().divideEntidade(this);
+			getArena().divideEntidade(this);
 			
 			return true;
 		} else {
@@ -163,6 +170,17 @@ abstract class Agente extends Entidade
 	
 	public String toString() {
 		return "["+getEquipe() + getId()+"] energia="+getEnergia()+", x="+getX()+", y="+getY() + ", status=" + (isParado() ? "parado":"andando");
+	}
+	
+	public void morre() {
+		if(!avisouMorte) {
+			avisouMorte = true;
+			super.getArena().removeEntidade(this);
+		}
+	}
+	
+	public final Arena getArena() {
+		return null; // agentes não tem acesso à arena.
 	}
 	
 	protected final void alteraX(int quanto) {
