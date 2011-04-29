@@ -64,7 +64,7 @@ class Arena extends JFrame implements Runnable
 	
 	private void adicionaAgentes() {
 		// TODO: criar os agentes...
-		Agente a = new Agente(0, 1, Constants.ENTIDADE_ENERGIA_INICIAL);
+		AgenteDummy a = new AgenteDummy(0, 1, Constants.ENTIDADE_ENERGIA_INICIAL);
 		adicionaEntidade(a);
 	}
 	
@@ -104,7 +104,6 @@ class Arena extends JFrame implements Runnable
 		desenhista.repaint();
 		
 		for(Entidade e:entidades) {	
-			e.pensa();
 			e.update();
 		} 
 		
