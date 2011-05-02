@@ -8,7 +8,6 @@ class AgenteInimigo extends Agente
 {
 	public AgenteInimigo(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);
-		System.out.println("Agente mal iniciado");
 	}
 	
 	public void pensa() {
@@ -18,12 +17,6 @@ class AgenteInimigo extends Agente
 		
 		if(podeDividir()) {
 			//divide();
-		}
-		
-		if(getEnergia() >= 500 && getEnergia() <= 600) {
-			para();
-		} else {
-			setDirecao(geraDirecaoAleatoria());
 		}
 	}
 	

@@ -63,12 +63,16 @@ class Arena extends JFrame implements Runnable
 	
 	private void adicionaAgentes() {
 		// TODO: criar os agentes...
-		AgenteDummy a = new AgenteDummy(0, 1, Constants.ENTIDADE_ENERGIA_INICIAL);
-		AgenteInimigo i = new AgenteInimigo(0, 1, Constants.ENTIDADE_ENERGIA_INICIAL);
-		PontoEnergia p = new PontoEnergia(0, 1, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL);
-		adicionaEntidade(a);
-		adicionaEntidade(i);
-		//adicionaEntidade(p);
+		int i;
+		
+		for(i = 0; i < 10; i++) {
+			adicionaEntidade(new AgenteDummy(0, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
+			adicionaEntidade(new AgenteInimigo(Constants.LARGURA_TELA - 40, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
+		}
+		
+		for(i = 0; i < 5; i++) {
+			adicionaEntidade(new PontoEnergia(Constants.LARGURA_TELA/2, 30 * i, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL));
+		}
 	}
 	
 	private void adicionaPontosEnergia() {
@@ -104,8 +108,6 @@ class Arena extends JFrame implements Runnable
 	}
 	
 	private void update() {
-		desenhista.repaint();
-		
 		for(Entidade e:entidades) {	
 			if(!e.isMorta()) {
 				e.update();
@@ -123,6 +125,8 @@ class Arena extends JFrame implements Runnable
 			entidades.removeAll(morrendo);
 			morrendo.removeAllElements();
 		}
+		
+		desenhista.repaint();
 	}
 	
 	public void adicionaEntidade(Entidade e) {

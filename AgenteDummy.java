@@ -8,7 +8,6 @@ class AgenteDummy extends Agente
 {
 	public AgenteDummy(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);
-		System.out.println("Agente iniciado");
 	}
 	
 	public void pensa() {
@@ -18,12 +17,6 @@ class AgenteDummy extends Agente
 		
 		if(podeDividir()) {
 			//divide();
-		}
-		
-		if(getEnergia() >= 500 && getEnergia() <= 600) {
-			para();
-		} else {
-			setDirecao(geraDirecaoAleatoria());
 		}
 	}
 	

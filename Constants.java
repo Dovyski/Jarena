@@ -25,7 +25,7 @@ class Constants
 	public static final long INTERVALO_UPDATE 					= 100;
 	
 	// Informações sobre entidade
-	public static final int ENTIDADE_ENERGIA_INICIAL 			= 100;	
+	public static final int ENTIDADE_ENERGIA_INICIAL 			= 1000;	
 	public static final int ENTIDADE_ENERGIA_GASTO_ANDAR 		= 2;
 	public static final int ENTIDADE_ENERGIA_GASTO_VIVER 		= 1;
 	public static final int ENTIDADE_ENERGIA_GASTO_DIVIDIR 		= 20;

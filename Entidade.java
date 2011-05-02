@@ -12,10 +12,6 @@ abstract class Entidade
 {
 	private static int contador							= 0;
 	
-	public static final int DESENHO_MAGO 				= 0;
-	public static final int DESENHO_GUERREIRO_RUIVO 	= 1;
-	public static final int DESENHO_ELFO 				= 2;
-	
 	public static final int DIREITA						= 1;
 	public static final int ESQUERDA					= 2;
 	public static final int CIMA						= 3;
@@ -24,7 +20,6 @@ abstract class Entidade
 	
 	private int x;
 	private int y;
-	private int tipoDesenho; // tipo de desenho
 	private int energia;
 	private Arena arena;
 	private int id;
@@ -33,12 +28,10 @@ abstract class Entidade
 	
 	// Métodos públicos
 	public Entidade(int x, int y, int energia) {
-		this.x 			= 0;
-		this.y 			= 0;
+		this.x 			= x;
+		this.y 			= y;
 		this.energia 	= energia;
 		this.id			= Entidade.contador++;
-		
-		setTipoDesenho(Entidade.DESENHO_ELFO);
 	}
 	
 	
@@ -91,17 +84,8 @@ abstract class Entidade
 		return this.arena;
 	}
 	
-	public void setTipoDesenho(int tipo) {
-		this.tipoDesenho = tipo;
-	}
-	
 	public int getId() {
 		return this.id;
-	}
-	
-	public void desenha(Graphics g) {
-		// TODO: desenhar as coisas aqui...
-		g.drawOval(getX(), getY(), 50, 50);
 	}
 	
 	public boolean isMorta() {
