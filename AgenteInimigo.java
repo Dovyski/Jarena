@@ -4,11 +4,11 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
-class AgenteDummy extends Agente
+class AgenteInimigo extends Agente
 {
-	public AgenteDummy(Integer x, Integer y, Integer energia) {
+	public AgenteInimigo(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);
-		System.out.println("Agente iniciado");
+		System.out.println("Agente mal iniciado");
 	}
 	
 	public void pensa() {
@@ -37,6 +37,6 @@ class AgenteDummy extends Agente
 	}
 	
 	public String getEquipe() {
-		return "Fernando";
+		return "Inimigo";
 	}
 }

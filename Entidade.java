@@ -42,12 +42,17 @@ abstract class Entidade
 	}
 	
 	
-	public void gastaEnergia(int quanto) {
+	public boolean gastaEnergia(int quanto) {
+		boolean retorno = false;
+		
 		this.energia -= quanto;
 		
 		if(this.energia <= 0) {
 			morre();
+			retorno = true;
 		}
+		
+		return retorno;
 	}
 	
 	public void ganhaEnergia(int quanto) {

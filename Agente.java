@@ -10,10 +10,12 @@ abstract class Agente extends Entidade
 	private int direcao;
 	private boolean parado;	
 	private boolean avisouMorte;	
+	private Arena arenaAntigo;
 	
 	abstract void pensa();
 	abstract void recebeuEnergia();
 	abstract void tomouDano();
+	abstract void ganhouCombate();
 	abstract String getEquipe();	
 	
 	private boolean movePara(int direcao) {
@@ -88,8 +90,8 @@ abstract class Agente extends Entidade
 		avisouMorte = false;
 	}
 	
-	public final void gastaEnergia(int quanto) {
-		super.gastaEnergia(quanto);
+	public final boolean gastaEnergia(int quanto) {
+		return super.gastaEnergia(quanto);
 	}
 	
 	public final void ganhaEnergia(int quanto) {
@@ -97,11 +99,15 @@ abstract class Agente extends Entidade
 	}
 	
 	public final void update() {		
+		Arena a;
+		
 		if(isMorta()) {
 			return;
 		}
 		
+		protegeInformacoes();
 		pensa();
+		desprotegeInformacoes();
 		
 		if(!isParado()) {
 			movePara(getDirecao());
@@ -109,7 +115,66 @@ abstract class Agente extends Entidade
 		}
 		
 		gastaEnergia(Constants.ENTIDADE_ENERGIA_GASTO_VIVER);
-		System.out.println("[UPDATE] " + this);
+		processaCombate();
+	}
+	
+	private void protegeInformacoes() {
+		arenaAntigo = getArena();
+		setArena(null);
+	}
+	
+	private void desprotegeInformacoes() {
+		setArena(arenaAntigo);
+	}
+	
+	private void processaCombate() {
+		Agente inimigo = getInimigoJuntoComigo();
+		boolean morreu = false;
+		
+		if(inimigo != null) {
+			morreu = dahPancada(inimigo);
+			
+			if(morreu) {
+				ganhaEnergia(Constants.ENTIDADE_COMBATE_RECOMPENSA);
+				ganhouCombate();
+			}
+		}
+		
+	}
+	
+	private boolean dahPancada(Agente inimigo) {
+		boolean morreu;
+		
+		morreu = inimigo.gastaEnergia(Constants.ENTIDADE_COMBATE_DANO);
+		
+		if(!morreu) {
+			inimigo.tomouDano();
+		}
+		
+		return morreu;
+	}
+	
+	private Agente getInimigoJuntoComigo() {
+		Agente i = null, retorno = null;
+		
+		for(Entidade a : getArena().getEntidades()) {
+			if(a instanceof Agente) {
+				i = (Agente) a;
+				
+				if(i.getX() == getX() && i.getY() == getY() && isInimigo(i)) {
+					// Achamos alguém inimigo e que está na mesma posição
+					// que estamos.
+					retorno = i;
+					break;
+				}
+			}
+		}
+		
+		return retorno;
+	}
+	
+	private boolean isInimigo(Agente a) {
+		return a.getEquipe() != getEquipe();
 	}
 	
 	public boolean isParado() {
@@ -177,10 +242,6 @@ abstract class Agente extends Entidade
 			avisouMorte = true;
 			super.getArena().removeEntidade(this);
 		}
-	}
-	
-	public final Arena getArena() {
-		return null; // agentes não tem acesso à arena.
 	}
 	
 	protected final void alteraX(int quanto) {

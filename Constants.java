@@ -29,7 +29,8 @@ class Constants
 	public static final int ENTIDADE_ENERGIA_GASTO_ANDAR 		= 2;
 	public static final int ENTIDADE_ENERGIA_GASTO_VIVER 		= 1;
 	public static final int ENTIDADE_ENERGIA_GASTO_DIVIDIR 		= 20;
-	public static final int ENTIDADE_DANO_COMBATE 				= 5;
+	public static final int ENTIDADE_COMBATE_DANO 				= 5;
+	public static final int ENTIDADE_COMBATE_RECOMPENSA			= 15;
 	public static final int ENTIDADE_VELOCIDADE 				= 10;
 	
 	// Informações sobre os pontos de energia
