@@ -8,10 +8,13 @@ import java.io.*;
 import javax.imageio.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.util.Calendar;
 
 class Desenhista extends Canvas
 {
 	private static final int TAM_SPRITE = 32;
+	private static final long INTERVALO_RENDER_SPRITES = 200;
+	private static final int FRAMES_SPRITE = 3;
 	
 	private Arena arena;
 	private Image imgBackground;
@@ -56,30 +59,56 @@ class Desenhista extends Canvas
 	}
 	
 	private void desenhaAgente(Graphics g, Agente a) {
-		int i = 0, j = 0;
+		int i = 0, j = 0, frameAtual = 0;
+		long tempoAgora = Calendar.getInstance().getTimeInMillis();
 		
-		switch(a.getDirecao()) {
-			case Agente.DIREITA:
-				i = 2;
-				break;
-				
-			case Agente.ESQUERDA:
-				i = 1;
-				break;
-				
-			case Agente.CIMA:
-				i = 3;
-				break;
-				
-			case Agente.BAIXO:	
-				i = 0;
-				break;
-				
-			default:
+		//if(tempoAgora >= getTimeProximoRender(a)) {
+			switch(a.getDirecao()) {
+				case Agente.DIREITA:
+					i = 2;
+					break;
+					
+				case Agente.ESQUERDA:
+					i = 1;
+					break;
+					
+				case Agente.CIMA:
+					i = 3;
+					break;
+					
+				case Agente.BAIXO:	
+					i = 0;
+					break;
+					
+				default:
 				// idle?
-		}
+			}
 		
-		desenhaSprite(g, a.getX(), a.getY(), i, 0);			
+			frameAtual = getFrameCorrente(a);
+			
+			desenhaSprite(g, a.getX(), a.getY(), i, frameAtual);			
+			
+			setTimeProximoRender(a, tempoAgora + INTERVALO_RENDER_SPRITES);
+			incrementaFrame(a, frameAtual);
+		//}
+	}
+	
+	private Long getTimeProximoRender(Agente a) {
+		Long tempo = (Long)a.getDados().get("proximoRender");
+		return tempo != null ? tempo : 0;
+	}
+	
+	private void setTimeProximoRender(Agente a, long tempo) {
+		a.getDados().put("proximoRender", tempo);
+	}
+	
+	private Integer getFrameCorrente(Agente a) {
+		Integer frame = (Integer)a.getDados().get("frame");
+		return frame != null ? frame : 0;
+	}
+	
+	private void incrementaFrame(Agente a, int frameAtual) {
+		a.getDados().put("frame", frameAtual < (FRAMES_SPRITE -1) ? frameAtual + 1 : 0);
 	}
 	
 	private void desenhaPontoEnergia(Graphics g, PontoEnergia p) {
