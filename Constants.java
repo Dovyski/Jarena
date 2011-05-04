@@ -22,7 +22,7 @@ class Constants
 	
 	// Define de quanto em quanto tempo a arena irá atualizar
 	// todos os agentes
-	public static final long INTERVALO_UPDATE 					= 100;
+	public static final long INTERVALO_UPDATE 					= 200;
 	
 	// Informações sobre entidade
 	public static final int ENTIDADE_ENERGIA_INICIAL 			= 1000;	
@@ -31,7 +31,7 @@ class Constants
 	public static final int ENTIDADE_ENERGIA_GASTO_DIVIDIR 		= 20;
 	public static final int ENTIDADE_COMBATE_DANO 				= 5;
 	public static final int ENTIDADE_COMBATE_RECOMPENSA			= 15;
-	public static final int ENTIDADE_VELOCIDADE 				= 10;
+	public static final int ENTIDADE_VELOCIDADE 				= 5;
 	
 	// Informações sobre os pontos de energia
 	public static final int PONTO_ENERGIA_SUPRIMENTO_INICIAL		= 1000;

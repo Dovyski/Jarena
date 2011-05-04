@@ -6,7 +6,7 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
  
- import java.awt.*;
+import java.util.HashMap;
  
 abstract class Entidade
 {
@@ -23,6 +23,7 @@ abstract class Entidade
 	private int energia;
 	private Arena arena;
 	private int id;
+	private HashMap<String, Object> dados;
 
 	abstract void update();
 	
@@ -32,6 +33,7 @@ abstract class Entidade
 		this.y 			= y;
 		this.energia 	= energia;
 		this.id			= Entidade.contador++;
+		this.dados		= new HashMap<String, Object>();
 	}
 	
 	
@@ -86,6 +88,10 @@ abstract class Entidade
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public HashMap<String, Object> getDados() {
+		return this.dados;
 	}
 	
 	public boolean isMorta() {

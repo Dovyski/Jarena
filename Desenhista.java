@@ -11,7 +11,11 @@ import java.awt.image.BufferedImage;
 
 class Desenhista extends Canvas
 {
+	private static final int TAM_SPRITE = 32;
+	
 	private Arena arena;
+	private Image imgBackground;
+	private Image imgSprites;
 	
 	public Desenhista(Arena a) {
 		arena = a;
@@ -32,10 +36,9 @@ class Desenhista extends Canvas
 	}
 	
 	private void carregaAssets() {
-		Image img = null;
-		
 		try {
-			img = ImageIO.read(new File("imagens/sprites1.png"));
+			imgBackground 	= ImageIO.read(new File("imagens/grass_background.jpg"));
+			imgSprites	 	= ImageIO.read(new File("imagens/sprites1.png"));
 			
 		} catch(IOException e) {
 			System.out.println("Não foi possível carregar a imagem...");
@@ -43,22 +46,40 @@ class Desenhista extends Canvas
 		}	
 	}
 	
+	private void desenhaSprite(Graphics g, int x, int y, int i, int j) {
+		// 12x8
+		g.drawImage(imgSprites, x, y, x + TAM_SPRITE, y + TAM_SPRITE, j * TAM_SPRITE, i * TAM_SPRITE, j * TAM_SPRITE + TAM_SPRITE, i * TAM_SPRITE+TAM_SPRITE, null);
+	}
+	
 	private void desenhaBackground(Graphics g) {
-		//g.drawImage(img, 0, 0, this);
+		g.drawImage(imgBackground, 0, 0, this);
 	}
 	
 	private void desenhaAgente(Graphics g, Agente a) {
-		Graphics2D g2d = (Graphics2D) g;
-		Color c = null;
+		int i = 0, j = 0;
 		
-		if(a.getEquipe().equals("Fernando")) {
-			c = Color.RED;
-		} else {
-			c = Color.BLUE;
+		switch(a.getDirecao()) {
+			case Agente.DIREITA:
+				i = 2;
+				break;
+				
+			case Agente.ESQUERDA:
+				i = 1;
+				break;
+				
+			case Agente.CIMA:
+				i = 3;
+				break;
+				
+			case Agente.BAIXO:	
+				i = 0;
+				break;
+				
+			default:
+				// idle?
 		}
-    
-		g2d.setPaint(c);                                  
-		g2d.fill(new Ellipse2D.Double(a.getX(), a.getY(), Constants.ENTIDADE_VELOCIDADE, Constants.ENTIDADE_VELOCIDADE));
+		
+		desenhaSprite(g, a.getX(), a.getY(), i, 0);			
 	}
 	
 	private void desenhaPontoEnergia(Graphics g, PontoEnergia p) {

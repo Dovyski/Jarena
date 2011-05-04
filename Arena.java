@@ -99,7 +99,7 @@ class Arena extends JFrame implements Runnable
 	public void run() {
 		while(true) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(Constants.INTERVALO_UPDATE);
 				update();
 			} catch(InterruptedException e) {
 				System.out.println("Thread da Arena acordou inexperadamente!");
