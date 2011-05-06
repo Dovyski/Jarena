@@ -8,6 +8,6 @@ class Main
 {	
 	public static void main(String arg[]) {
 		Arena a = new Arena();
-		new Thread(a).start();
+		a.run();
 	}
 }
