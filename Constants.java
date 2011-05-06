@@ -15,10 +15,10 @@ import java.util.ArrayList;
 class Constants
 {
 	// Constantes para controle da tela (tamanho, resolução, etc).
-	public static final int LARGURA_TELA 						= 800;
-	public static final int ALTURA_TELA 						= 600;	
-	public static final int LARGURA_MAPA						= 700;	
-	public static final int ALTURA_MAPA							= 500;	
+	public static final int LARGURA_TELA 						= 900;
+	public static final int ALTURA_TELA 						= 700;	
+	public static final int LARGURA_MAPA						= LARGURA_TELA - 40;	
+	public static final int ALTURA_MAPA							= ALTURA_TELA - 40;	
 	
 	// Define de quanto em quanto tempo a arena irá atualizar
 	// todos os agentes

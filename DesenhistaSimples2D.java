@@ -110,11 +110,19 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	}
 	
 	private void desenhaBackground(Graphics g) {
-		g.drawImage(imgBackground, 0, 0, 479, 290, 0, 0, 479, 290, null);
-		g.drawImage(imgBackground, 479, 0, 479*2, 290, 0, 0, 479, 290, null);
+		int linhas, colunas, i, j, largura, altura;
 		
-		g.drawImage(imgBackground, 0, 290, 479, 290*2, 0, 0, 479, 290, null);
-		g.drawImage(imgBackground, 479, 290, 479*2, 290*2, 0, 0, 479, 290, null);
+		largura = imgBackground.getWidth(this);
+		altura	= imgBackground.getHeight(this);
+
+		colunas = (int) Math.ceil((double)Constants.LARGURA_TELA / largura);
+		linhas 	= (int) Math.ceil((double)Constants.ALTURA_TELA / altura);
+		
+		for(i = 0; i < linhas; i++) {
+			for(j = 0; j < colunas; j++) {
+				g.drawImage(imgBackground, j*largura, i*altura, j*largura+largura, i*altura+altura, 0, 0, largura, altura - 20, null);
+			}
+		}
 	}
 	
 	private void desenhaAgente(Graphics g, Agente a) {

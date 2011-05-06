@@ -8,6 +8,7 @@ class AgenteDummy extends Agente
 {
 	public AgenteDummy(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);
+		setDirecao(geraDirecaoAleatoria());
 	}
 	
 	public void pensa() {
