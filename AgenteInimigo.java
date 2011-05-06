@@ -23,7 +23,7 @@ class AgenteInimigo extends Agente
 	public void recebeuEnergia() {
 	}
 	
-	public void tomouDano() {
+	public void tomouDano(Agente inimigo) {
 	}
 	
 	public void ganhouCombate() {

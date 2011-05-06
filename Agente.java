@@ -10,11 +10,11 @@ abstract class Agente extends Entidade
 	private int direcao;
 	private boolean parado;	
 	private boolean avisouMorte;	
-	private Arena arenaAntigo;
+	private boolean infosTrancadas;
 	
 	abstract void pensa();
 	abstract void recebeuEnergia();
-	abstract void tomouDano();
+	abstract void tomouDano(Agente inimigo);
 	abstract void ganhouCombate();
 	abstract void recebeuMensagem(String msg, Agente remetente);
 	abstract String getEquipe();	
@@ -96,19 +96,23 @@ abstract class Agente extends Entidade
 	}
 	
 	public final void ganhaEnergia(int quanto) {
-		super.ganhaEnergia(quanto);
+		if(!isInfosProtegidas()) {
+			super.ganhaEnergia(quanto);
+		}
 	}
 	
-	public final void update() {		
-		Arena a;
-		
+	public final Arena getArena() {
+		return isInfosProtegidas() ? null : super.getArena();
+	}
+	
+	public final void update() {
 		if(isMorta()) {
 			return;
 		}
 		
-		protegeInformacoes();
+		protegeInformacoes(true);
 		pensa();
-		desprotegeInformacoes();
+		protegeInformacoes(false);
 		
 		if(!isParado()) {
 			movePara(getDirecao());
@@ -119,13 +123,12 @@ abstract class Agente extends Entidade
 		processaCombate();
 	}
 	
-	private void protegeInformacoes() {
-		arenaAntigo = getArena();
-		setArena(null);
+	private void protegeInformacoes(boolean status) {
+		infosTrancadas = status;
 	}
 	
-	private void desprotegeInformacoes() {
-		setArena(arenaAntigo);
+	private boolean isInfosProtegidas() {
+		return infosTrancadas;
 	}
 	
 	private void processaCombate() {
@@ -149,7 +152,7 @@ abstract class Agente extends Entidade
 		morreu = inimigo.gastaEnergia(Constants.ENTIDADE_COMBATE_DANO);
 		
 		if(!morreu) {
-			inimigo.tomouDano();
+			inimigo.tomouDano(this);
 		}
 		
 		return morreu;
@@ -178,11 +181,11 @@ abstract class Agente extends Entidade
 		return a.getEquipe() != getEquipe();
 	}
 	
-	public boolean isParado() {
+	public final boolean isParado() {
 		return this.parado;
 	}
 		
-	public void para() {
+	public final void para() {
 		this.parado = true;
 	}
 	
@@ -207,16 +210,11 @@ abstract class Agente extends Entidade
 		return ((getEnergia() - Constants.ENTIDADE_ENERGIA_GASTO_DIVIDIR) / 2 ) > 0;
 	}	
 	
-	public final boolean temInimigo(int direcao) {
-		// TODO: fazer..
-		return false;
-	}
-	
-	public int getDirecao() {
+	public final int getDirecao() {
 		return this.direcao;
 	}
 	
-	public void setDirecao(int direcao) {
+	public final void setDirecao(int direcao) {
 		this.direcao = direcao;
 		this.parado = false;
 	}
@@ -238,10 +236,10 @@ abstract class Agente extends Entidade
 		return "["+getEquipe() + getId()+"] energia="+getEnergia()+", x="+getX()+", y="+getY() + ", status=" + (isParado() ? "parado":"andando");
 	}
 	
-	public void morre() {
+	public final void morre() {
 		if(!avisouMorte) {
 			avisouMorte = true;
-			super.getArena().removeEntidade(this);
+			getArena().removeEntidade(this);
 		}
 	}
 	

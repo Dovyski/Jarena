@@ -55,28 +55,25 @@ class Arena implements Runnable {
 	}
 
 	private void adicionaAgentes() {
-		// TODO: criar os agentes...
 		int i;
 		double rand;
 
-		for (i = 0; i < 20; i++) {
-			rand = Math.random();
-			adicionaEntidade(new PontoEnergia(
-					(int) (Constants.LARGURA_TELA / 2 + (rand < 0.5 ? 1 : -1)
-							* rand * 400), 90 * i,
-					Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL));
-		}
-
 		for (i = 0; i < 15; i++) {
-			adicionaEntidade(new AgenteDummy(0, 10 * i,
-					Constants.ENTIDADE_ENERGIA_INICIAL));
-			adicionaEntidade(new AgenteInimigo(Constants.LARGURA_TELA - 40,
-					10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
+			adicionaEntidade(new AgenteDummy(0, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
+			adicionaEntidade(new AgenteInimigo(Constants.LARGURA_TELA - 40, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
 		}
 	}
 
 	private void adicionaPontosEnergia() {
-		// TODO: criar os pontos de energia
+		double rand;
+		int i, j;
+		
+		j = Constants.ALTURA_TELA/Constants.PONTO_ENERGIA_QUANTIDADE;
+
+		for (i = 0; i < Constants.PONTO_ENERGIA_QUANTIDADE; i++) {
+			rand = Math.random();
+			adicionaEntidade(new PontoEnergia((int) (Constants.LARGURA_TELA * 0.8 * rand), j * i, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL));
+		}
 	}
 
 	public Vector<Entidade> getEntidades() {
