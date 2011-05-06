@@ -29,6 +29,7 @@ class Desenhista extends Canvas
 	private Arena arena;
 	private Image imgBackground;
 	private Image imgSprites;
+	private Image imgPontosEnergia;
 	private HashMap<String, Integer> tipoSprite;	
 	private int spriteAtual;
 	
@@ -55,8 +56,9 @@ class Desenhista extends Canvas
 	
 	private void carregaAssets() {
 		try {
-			imgBackground 	= ImageIO.read(new File("imagens/grass_background.jpg"));
-			imgSprites	 	= ImageIO.read(new File("imagens/sprites1.png"));
+			imgBackground 		= ImageIO.read(new File("imagens/desert.png"));			
+			imgSprites	 		= ImageIO.read(new File("imagens/sprites1.png"));
+			imgPontosEnergia	= ImageIO.read(new File("imagens/towers.png"));
 			
 		} catch(IOException e) {
 			System.out.println("Não foi possível carregar a imagem...");
@@ -72,7 +74,11 @@ class Desenhista extends Canvas
 	}
 	
 	private void desenhaBackground(Graphics g) {
-		g.drawImage(imgBackground, 0, 0, this);
+		g.drawImage(imgBackground, 0, 0, 479, 290, 0, 0, 479, 290, null);
+		g.drawImage(imgBackground, 479, 0, 479*2, 290, 0, 0, 479, 290, null);
+		
+		g.drawImage(imgBackground, 0, 290, 479, 290*2, 0, 0, 479, 290, null);
+		g.drawImage(imgBackground, 479, 290, 479*2, 290*2, 0, 0, 479, 290, null);
 	}
 	
 	private void desenhaAgente(Graphics g, Agente a) {
@@ -144,9 +150,6 @@ class Desenhista extends Canvas
 	}
 	
 	private void desenhaPontoEnergia(Graphics g, PontoEnergia p) {
-		Graphics2D g2d = (Graphics2D) g;
-    
-		g2d.setPaint(Color.GREEN);                                  
-		g2d.fill(new Ellipse2D.Double(p.getX(), p.getY(), 25, 25));
+		g.drawImage(imgPontosEnergia, p.getX(), p.getY(), p.getX()+50, p.getY()+60, 55, 0, 90, 60, null);
 	}
 }

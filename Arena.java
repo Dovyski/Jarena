@@ -64,14 +64,16 @@ class Arena extends JFrame implements Runnable
 	private void adicionaAgentes() {
 		// TODO: criar os agentes...
 		int i;
+		double rand;
 		
-		for(i = 0; i < 10; i++) {
-			adicionaEntidade(new AgenteDummy(0, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
-			adicionaEntidade(new AgenteInimigo(Constants.LARGURA_TELA - 40, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
+		for(i = 0; i < 20; i++) {
+			rand = Math.random();
+			adicionaEntidade(new PontoEnergia((int)(Constants.LARGURA_TELA/2 + (rand < 0.5 ? 1 : -1) * rand * 400), 90 * i, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL));
 		}
 		
-		for(i = 0; i < 5; i++) {
-			adicionaEntidade(new PontoEnergia(Constants.LARGURA_TELA/2, 30 * i, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL));
+		for(i = 0; i < 15; i++) {
+			adicionaEntidade(new AgenteDummy(0, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
+			adicionaEntidade(new AgenteInimigo(Constants.LARGURA_TELA - 40, 10 * i, Constants.ENTIDADE_ENERGIA_INICIAL));
 		}
 	}
 	
