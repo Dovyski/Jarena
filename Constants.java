@@ -25,21 +25,24 @@ class Constants
 	public static final long INTERVALO_UPDATE 					= 200;
 	
 	// Informações sobre entidade
-	public static final int ENTIDADE_ENERGIA_INICIAL 			= 1000;	
+	public static final int ENTIDADE_ENERGIA_INICIAL 			= 2000;	
 	public static final int ENTIDADE_ENERGIA_GASTO_ANDAR 		= 2;
 	public static final int ENTIDADE_ENERGIA_GASTO_VIVER 		= 1;
 	public static final int ENTIDADE_ENERGIA_GASTO_DIVIDIR 		= 20;
 	public static final int ENTIDADE_COMBATE_DANO 				= 5;
-	public static final int ENTIDADE_COMBATE_RECOMPENSA			= 15;
+	public static final int ENTIDADE_COMBATE_RECOMPENSA			= 30;
 	public static final int ENTIDADE_VELOCIDADE 				= 5;
 	
 	// Informações sobre agentes
 	public static final int AGENTE_ALCANCE_MENSAGEM					= 70;
 	
+	// Informações sobre o estatistico
+	public static final long ESTATISTICO_INTERVALO 					= 1000;
+	
 	// Informações sobre os pontos de energia
 	public static final int PONTO_ENERGIA_SUPRIMENTO_INICIAL		= 1000;
 	public static final int PONTO_ENERGIA_REGENERA_TURNO			= 0;
-	public static final int PONTO_ENERGIA_ENTREGA_TURNO				= ENTIDADE_ENERGIA_GASTO_VIVER + ENTIDADE_ENERGIA_GASTO_ANDAR + 1;
+	public static final int PONTO_ENERGIA_ENTREGA_TURNO				= ENTIDADE_ENERGIA_GASTO_VIVER + ENTIDADE_ENERGIA_GASTO_ANDAR + 2;
 	public static final double PONTO_ENERGIA_AREA					= 10;
 	public static final int PONTO_ENERGIA_QUANTIDADE				= 5;
 }
