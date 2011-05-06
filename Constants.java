@@ -33,6 +33,9 @@ class Constants
 	public static final int ENTIDADE_COMBATE_RECOMPENSA			= 15;
 	public static final int ENTIDADE_VELOCIDADE 				= 5;
 	
+	// Informações sobre agentes
+	public static final int AGENTE_ALCANCE_MENSAGEM					= 70;
+	
 	// Informações sobre os pontos de energia
 	public static final int PONTO_ENERGIA_SUPRIMENTO_INICIAL		= 1000;
 	public static final int PONTO_ENERGIA_REGENERA_TURNO			= 0;

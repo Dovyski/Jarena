@@ -16,6 +16,7 @@ abstract class Agente extends Entidade
 	abstract void recebeuEnergia();
 	abstract void tomouDano();
 	abstract void ganhouCombate();
+	abstract void recebeuMensagem(String msg, Agente remetente);
 	abstract String getEquipe();	
 	
 	private boolean movePara(int direcao) {
@@ -243,6 +244,17 @@ abstract class Agente extends Entidade
 			super.getArena().removeEntidade(this);
 		}
 	}
+	
+	public final void enviaMensagem(String msg) {
+		Agente d;
+		
+		for(Entidade a : getArena().getEntidades()) {
+			if((a instanceof Agente) && (distancia(a) <= Constants.AGENTE_ALCANCE_MENSAGEM)) {
+				d = (Agente) a;
+				d.recebeuMensagem(msg, this);
+			}
+		}
+	}	
 	
 	protected final void alteraX(int quanto) {
 		System.out.println("Agentes não podem alterar sua posição X diretamente. Use setDirecao().");

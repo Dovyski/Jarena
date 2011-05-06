@@ -39,15 +39,6 @@ class PontoEnergia extends Entidade
 		System.out.println("PontoEnergia"+getId()+" dando vida para " + a);
 	}
 	
-	public double distancia(Entidade a) {
-		int x,y;
-		
-		x = a.getX() - getX();
-		y = a.getY() - getY();
-		
-		return Math.sqrt(x*x - y*y);
-	}
-	
 	public String toString() {
 		return "[PontoEnergia" + getId()+"] energia="+getEnergia()+", x="+getX()+", y="+getY();
 	}

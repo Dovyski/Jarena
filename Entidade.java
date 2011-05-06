@@ -97,4 +97,13 @@ abstract class Entidade
 	public boolean isMorta() {
 		return this.energia <= 0;
 	}
+	
+	public double distancia(Entidade a) {
+		int x,y;
+		
+		x = a.getX() - getX();
+		y = a.getY() - getY();
+		
+		return Math.sqrt(x*x - y*y);
+	}
 }

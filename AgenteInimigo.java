@@ -29,6 +29,9 @@ class AgenteInimigo extends Agente
 	public void ganhouCombate() {
 	}
 	
+	public void recebeuMensagem(String msg, Agente remetente) {
+	}	
+	
 	public String getEquipe() {
 		return "Inimigo";
 	}
