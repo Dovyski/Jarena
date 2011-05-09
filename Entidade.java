@@ -12,12 +12,6 @@ abstract class Entidade
 {
 	private static int contador							= 0;
 	
-	public static final int DIREITA						= 1;
-	public static final int ESQUERDA					= 2;
-	public static final int CIMA						= 3;
-	public static final int BAIXO						= 4;
-	public static final int NENHUMA_DIRECAO				= 5;
-	
 	private int x;
 	private int y;
 	private int energia;
@@ -40,7 +34,7 @@ abstract class Entidade
 	public boolean gastaEnergia(int quanto) {
 		boolean retorno = false;
 		
-		this.energia -= quanto;
+		this.energia -= quanto < 0 ? quanto*-1 : quanto;
 		
 		if(this.energia <= 0) {
 			morre();

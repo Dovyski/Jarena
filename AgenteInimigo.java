@@ -1,5 +1,6 @@
 /**
- * Um exemplo de agente que anda aleatoriamente na arena.
+ * Um exemplo de agente que anda aleatoriamente na arena. Esse agente pode ser usado como base
+ * para a criação de um agente mais esperto. Para mais explicações, veja o AgenteDummy.java.
  * 
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
@@ -13,10 +14,6 @@ class AgenteInimigo extends Agente
 	public void pensa() {
 		if(!podeMoverPara(getDirecao())) {
 			setDirecao(geraDirecaoAleatoria());
-		}
-		
-		if(podeDividir()) {
-			//divide();
 		}
 	}
 	
