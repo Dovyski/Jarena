@@ -11,6 +11,7 @@ abstract class Agente extends Entidade
 	private boolean parado;	
 	private boolean avisouMorte;	
 	private boolean infosTrancadas;
+	private boolean fazerDivisao;
 	
 	abstract void pensa();
 	abstract void recebeuEnergia();
@@ -89,6 +90,7 @@ abstract class Agente extends Entidade
 		setDirecao(geraDirecaoAleatoria());
 		
 		avisouMorte = false;
+		fazerDivisao = false;
 	}
 	
 	public final boolean gastaEnergia(int quanto) {
@@ -113,6 +115,10 @@ abstract class Agente extends Entidade
 		protegeInformacoes(true);
 		pensa();
 		protegeInformacoes(false);
+		
+		if(fazerDivisao) {
+			fazDivisao();
+		}
 		
 		if(!isParado()) {
 			movePara(getDirecao());
@@ -221,16 +227,24 @@ abstract class Agente extends Entidade
 	
 	public final boolean divide() {
 		if(podeDividir()) {
+			fazerDivisao = true;			
+			return true;
+		} else {
+			fazerDivisao = false;
+			return false;
+		}
+	}
+	
+	private void fazDivisao() {
+		fazerDivisao = false;
+		
+		if(podeDividir()) {
 			gastaEnergia(Constants.ENTIDADE_ENERGIA_GASTO_DIVIDIR);
 			gastaEnergia(getEnergia() / 2);
 			
 			getArena().divideEntidade(this);
-			
-			return true;
-		} else {
-			return false;
 		}
-	}
+	}	
 	
 	public String toString() {
 		return "["+getEquipe() + getId()+"] energia="+getEnergia()+", x="+getX()+", y="+getY() + ", status=" + (isParado() ? "parado":"andando");

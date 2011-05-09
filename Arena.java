@@ -171,7 +171,10 @@ class Arena implements Runnable {
 
 			Entidade nova = (Entidade) construtor.newInstance(entidade.getX(), entidade.getY(), entidade.getEnergia());
 			agendaNascimento(nova);
-
+			
+			if(entidade instanceof Agente) {
+				estatistico.contabilizaDivisao((Agente)entidade);
+			}
 		} catch (Exception e) {
 			System.out.println("Erro na hora de dividir a entidade!" + e.getMessage());
 		}

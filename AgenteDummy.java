@@ -16,8 +16,8 @@ class AgenteDummy extends Agente
 			setDirecao(geraDirecaoAleatoria());
 		}
 		
-		if(podeDividir()) {
-			//divide();
+		if(podeDividir() && getEnergia() >= 400) {
+			divide();
 		}
 	}
 	

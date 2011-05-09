@@ -63,6 +63,11 @@ public class Estatistico {
 		}
 	}
 	
+	public void contabilizaDivisao(Agente a) {
+		long[] nums = getInfoEquipe(a.getEquipe(), infos);
+		nums[TOTAL_DIVISOES]++;
+	}
+	
 	private long[] getInfoEquipe(String nome, HashMap<String, long[]> infos) {
 		long[] nums = infos.get(nome);
 		
