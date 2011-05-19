@@ -383,7 +383,11 @@ abstract class Agente extends Entidade
 		}
 		
 		protegeInformacoes(true);
-		pensa();
+		try {
+			pensa();
+		} catch (Exception e) {
+			morrePorErroExcecao(e);
+		}
 		protegeInformacoes(false);
 		
 		if(fazerDivisao) {
@@ -399,27 +403,58 @@ abstract class Agente extends Entidade
 		processaCombate();
 	}
 	
-	public void sinalizaRecebeuEnergia() {
+	private void morrePorErroExcecao(Exception e) {
+		boolean status = isInfosProtegidas();
+		
+		System.out.println("*** [AGENTE] com EXCECAO, morrendo... " + this);
+		e.printStackTrace();
+		
+		protegeInformacoes(false);
+		morre();
+		protegeInformacoes(status);
+	}
+	
+	public final void sinalizaRecebeuEnergia() {
 		protegeInformacoes(true);
-		recebeuEnergia();
+		try {
+			recebeuEnergia();
+			
+		} catch (Exception e) {
+			morrePorErroExcecao(e);
+		}
 		protegeInformacoes(false);
 	}
 	
-	public void sinalizaTomouDano(Agente inimigo) {
+	public final void sinalizaTomouDano(Agente inimigo) {
 		protegeInformacoes(true);
-		tomouDano(inimigo);
+		try {
+			tomouDano(inimigo);
+			
+		} catch (Exception e) {
+			morrePorErroExcecao(e);
+		}
 		protegeInformacoes(false);
 	}
 	
-	public void sinalizaGanhouCombate() {
+	public final void sinalizaGanhouCombate() {
 		protegeInformacoes(true);
-		ganhouCombate();
+		try {
+			ganhouCombate();
+			
+		} catch (Exception e) {
+			morrePorErroExcecao(e);
+		}		
 		protegeInformacoes(false);
 	}
 	
-	public void sinalizaRecebeuMensagem(String msg, Agente remetente) {
+	public final void sinalizaRecebeuMensagem(String msg, Agente remetente) {
 		protegeInformacoes(true);
-		recebeuMensagem(msg, remetente);
+		try {
+			recebeuMensagem(msg, remetente);
+			
+		} catch (Exception e) {
+			morrePorErroExcecao(e);
+		}
 		protegeInformacoes(false);
 	}
 	

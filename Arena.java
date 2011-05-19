@@ -116,7 +116,12 @@ class Arena implements Runnable {
 	private void update() {
 		for (Entidade e : entidades) {
 			if (!e.isMorta()) {
-				e.update();
+				try {
+					e.update();
+				} catch (Exception exp) {
+					System.out.println("*** EXCECAO em entidade *** Quem = " + e);
+					exp.printStackTrace();
+				}
 			}
 		}
 
