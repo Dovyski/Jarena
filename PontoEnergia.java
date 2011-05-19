@@ -28,13 +28,12 @@ class PontoEnergia extends Entidade
 	}
 	
 	private void recarregaEnergiaAgente(Agente a) {
-		// Primeiro, vamos a energia e descontamos
-		// do nosso estoque.
+		// Primeiro, descontamos a energia do nosso estoque.
 		a.ganhaEnergia(Constants.PONTO_ENERGIA_ENTREGA_TURNO);
 		gastaEnergia(Constants.PONTO_ENERGIA_ENTREGA_TURNO);		
 		
 		// Depois avisamos o agente que ele recebeu energia.
-		a.recebeuEnergia();
+		a.sinalizaRecebeuEnergia();
 		
 		System.out.println("PontoEnergia"+getId()+" dando vida para " + a);
 	}

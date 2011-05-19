@@ -258,7 +258,7 @@ abstract class Agente extends Entidade
 		for(Entidade a : getArena().getEntidades()) {
 			if((a instanceof Agente) && (distancia(a) <= Constants.AGENTE_ALCANCE_MENSAGEM)) {
 				d = (Agente) a;
-				d.recebeuMensagem(msg, this);
+				d.sinalizaRecebeuMensagem(msg, this);
 			}
 		}
 	}
@@ -315,7 +315,7 @@ abstract class Agente extends Entidade
 			
 			if(morreu) {
 				ganhaEnergia(Constants.ENTIDADE_COMBATE_RECOMPENSA);
-				ganhouCombate();
+				sinalizaGanhouCombate();
 			}
 		}
 		
@@ -327,7 +327,7 @@ abstract class Agente extends Entidade
 		morreu = inimigo.gastaEnergia(Constants.ENTIDADE_COMBATE_DANO);
 		
 		if(!morreu) {
-			inimigo.tomouDano(this);
+			inimigo.sinalizaTomouDano(this);
 		}
 		
 		return morreu;
@@ -397,6 +397,30 @@ abstract class Agente extends Entidade
 		
 		gastaEnergia(Constants.ENTIDADE_ENERGIA_GASTO_VIVER);
 		processaCombate();
+	}
+	
+	public void sinalizaRecebeuEnergia() {
+		protegeInformacoes(true);
+		recebeuEnergia();
+		protegeInformacoes(false);
+	}
+	
+	public void sinalizaTomouDano(Agente inimigo) {
+		protegeInformacoes(true);
+		tomouDano(inimigo);
+		protegeInformacoes(false);
+	}
+	
+	public void sinalizaGanhouCombate() {
+		protegeInformacoes(true);
+		ganhouCombate();
+		protegeInformacoes(false);
+	}
+	
+	public void sinalizaRecebeuMensagem(String msg, Agente remetente) {
+		protegeInformacoes(true);
+		recebeuMensagem(msg, remetente);
+		protegeInformacoes(false);
 	}
 	
 	public String toString() {
