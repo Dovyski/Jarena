@@ -98,6 +98,6 @@ abstract class Entidade
 		x = a.getX() - getX();
 		y = a.getY() - getY();
 		
-		return Math.sqrt(x*x - y*y);
+		return Math.sqrt(x*x + y*y);
 	}
 }
