@@ -243,7 +243,7 @@ abstract class Agente extends Entidade
 	public final void morre() {
 		if(!avisouMorte) {
 			avisouMorte = true;
-			getArena().removeEntidade(this);
+			super.getArena().removeEntidade(this);
 		}
 	}
 	
@@ -255,7 +255,7 @@ abstract class Agente extends Entidade
 	public final void enviaMensagem(String msg) {
 		Agente d;
 		
-		for(Entidade a : getArena().getEntidades()) {
+		for(Entidade a : super.getArena().getEntidades()) {
 			if((a instanceof Agente) && (distancia(a) <= Constants.AGENTE_ALCANCE_MENSAGEM)) {
 				d = (Agente) a;
 				d.sinalizaRecebeuMensagem(msg, this);
@@ -336,7 +336,7 @@ abstract class Agente extends Entidade
 	private Agente getInimigoJuntoComigo() {
 		Agente i = null, retorno = null;
 		
-		for(Entidade a : getArena().getEntidades()) {
+		for(Entidade a : super.getArena().getEntidades()) {
 			if(a instanceof Agente) {
 				i = (Agente) a;
 				
@@ -363,7 +363,7 @@ abstract class Agente extends Entidade
 			gastaEnergia(Constants.ENTIDADE_ENERGIA_GASTO_DIVIDIR);
 			gastaEnergia(getEnergia() / 2);
 			
-			getArena().divideEntidade(this);
+			super.getArena().divideEntidade(this);
 		}
 	}
 	
