@@ -98,7 +98,7 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
         //Drawing is done which looks very jerky
         Toolkit.getDefaultToolkit().sync();
 	}
-	
+
 	private void renderiza(Graphics g) {
 		desenhaBackground(g);
 		
@@ -216,5 +216,45 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	
 	private void desenhaPontoEnergia(Graphics g, PontoEnergia p) {
 		g.drawImage(imgPontosEnergia, p.getX(), p.getY(), p.getX()+50, p.getY()+60, 55, 0, 90, 60, null);
+	}
+	
+	
+	//////////////////////
+	// Métodos invocados pela arena para avisar sobre acontecimentos importantes
+	/////////////////////
+	
+	public void agenteRecebeuEnergia(Agente a) {
+		
+	}
+	
+	public void agenteTomouDano(Agente a) {
+		
+	}
+
+	public void agenteBateuAlguem(Agente batendo, Agente apanhando) {
+		
+	}
+
+	public void agenteGanhouCombate(Agente a) {
+		
+	}
+
+	public void agenteMorreu(Agente a) {
+		
+	}
+	
+	public void agenteMorreuPorExcecao(Agente a, Exception e) {
+		
+	}
+
+	public void agenteClonou(Agente origem, Agente clone) {
+	}
+
+	public void agenteEnviouMensagem(Agente a, String msg) {
+		
+	}
+
+	public void agenteRecebeuMensagem(Agente destinatario, Agente remetente) {
+		
 	}
 }

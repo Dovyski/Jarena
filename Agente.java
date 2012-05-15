@@ -243,6 +243,7 @@ abstract class Agente extends Entidade
 	public final void morre() {
 		if(!avisouMorte) {
 			avisouMorte = true;
+			super.getArena().getDesenhista().agenteMorreu(this);
 			super.getArena().removeEntidade(this);
 		}
 	}
@@ -257,6 +258,9 @@ abstract class Agente extends Entidade
 		
 		for(Entidade a : super.getArena().getEntidades()) {
 			if((a instanceof Agente) && (distancia(a) <= Constants.AGENTE_ALCANCE_MENSAGEM)) {
+				
+				super.getArena().getDesenhista().agenteEnviouMensagem((Agente) a, msg);
+				
 				d = (Agente) a;
 				d.sinalizaRecebeuMensagem(msg, this);
 			}
@@ -325,6 +329,7 @@ abstract class Agente extends Entidade
 		boolean morreu;
 		
 		morreu = inimigo.gastaEnergia(Constants.ENTIDADE_COMBATE_DANO);
+		super.getArena().getDesenhista().agenteBateuAlguem(this, inimigo);
 		
 		if(!morreu) {
 			inimigo.sinalizaTomouDano(this);
@@ -409,6 +414,8 @@ abstract class Agente extends Entidade
 		System.out.println("*** [AGENTE] com EXCECAO, morrendo... " + this);
 		e.printStackTrace();
 		
+		getArena().getDesenhista().agenteMorreuPorExcecao(this, e);
+		
 		protegeInformacoes(false);
 		morre();
 		protegeInformacoes(status);
@@ -418,6 +425,7 @@ abstract class Agente extends Entidade
 		protegeInformacoes(true);
 		try {
 			recebeuEnergia();
+			super.getArena().getDesenhista().agenteRecebeuEnergia(this);
 			
 		} catch (Exception e) {
 			morrePorErroExcecao(e);
@@ -429,6 +437,7 @@ abstract class Agente extends Entidade
 		protegeInformacoes(true);
 		try {
 			tomouDano(inimigo.getEnergia());
+			super.getArena().getDesenhista().agenteTomouDano(this);
 			
 		} catch (Exception e) {
 			morrePorErroExcecao(e);
@@ -440,6 +449,7 @@ abstract class Agente extends Entidade
 		protegeInformacoes(true);
 		try {
 			ganhouCombate();
+			super.getArena().getDesenhista().agenteGanhouCombate(this);
 			
 		} catch (Exception e) {
 			morrePorErroExcecao(e);
@@ -451,6 +461,7 @@ abstract class Agente extends Entidade
 		protegeInformacoes(true);
 		try {
 			recebeuMensagem(msg, remetente);
+			super.getArena().getDesenhista().agenteRecebeuMensagem(this, remetente);
 			
 		} catch (Exception e) {
 			morrePorErroExcecao(e);

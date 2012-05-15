@@ -76,6 +76,10 @@ class Arena implements Runnable {
 	public Vector<Entidade> getEntidades() {
 		return this.entidades;
 	}
+	
+	public Desenhista getDesenhista() {
+		return this.desenhista;
+	}
 
 	public void agendaNascimento(Entidade e) {
 		this.nascendo.add(e);
@@ -179,6 +183,7 @@ class Arena implements Runnable {
 			
 			if(entidade instanceof Agente) {
 				estatistico.contabilizaDivisao((Agente)entidade);
+				desenhista.agenteClonou((Agente)entidade, (Agente)nova);
 			}
 		} catch (Exception e) {
 			System.out.println("Erro na hora de dividir a entidade!" + e.getMessage());
