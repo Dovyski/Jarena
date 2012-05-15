@@ -43,9 +43,9 @@ abstract class Agente extends Entidade
 	 * no espaço estarão, obrigatoriamente, batalhando. Durante uma batalha, ambos os agentes
 	 * perdem uma quantidade de energia extra (que é o dano causado pelo agente adversário).
 	 * 
-	 * @param inimigo inimigo que está na mesma posição que o agente (e, consequentemente, o inimigo que o agente está lutando nesse turno).
+	 * @param energiaRestanteInimigo quantidade de energia restante do inimigo com o qual se está batalhando.
 	 */
-	abstract void tomouDano(Agente inimigo);
+	abstract void tomouDano(int energiaRestanteInimigo);
 	
 	/**
 	 * Invocado pela arena sempre que o agente estiver envolvido em uma batalha e o agente inimigo
@@ -428,7 +428,7 @@ abstract class Agente extends Entidade
 	public final void sinalizaTomouDano(Agente inimigo) {
 		protegeInformacoes(true);
 		try {
-			tomouDano(inimigo);
+			tomouDano(inimigo.getEnergia());
 			
 		} catch (Exception e) {
 			morrePorErroExcecao(e);
