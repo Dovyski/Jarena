@@ -36,6 +36,8 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	private Image imgBackground;
 	private Image imgSprites;
 	private Image imgPontosEnergia;
+	private Image imgEnergia;
+	private Image imgMensagens;
 	private HashMap<String, Integer> tipoSprite;	
 	private int spriteAtual;
 	
@@ -117,6 +119,8 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 			imgBackground 		= ImageIO.read(new File("imagens/desert.png"));			
 			imgSprites	 		= ImageIO.read(new File("imagens/sprites1.png"));
 			imgPontosEnergia	= ImageIO.read(new File("imagens/towers.png"));
+			imgEnergia			= ImageIO.read(new File("imagens/energy.png"));
+			imgMensagens		= ImageIO.read(new File("imagens/messages.png"));
 			
 		} catch(IOException e) {
 			System.out.println("Não foi possível carregar a imagem...");
@@ -129,6 +133,10 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		int coluna = j + (tipoSprite % 4) * FRAMES_SPRITE;
 		
 		g.drawImage(imgSprites, x, y, x + TAM_SPRITE, y + TAM_SPRITE, coluna * TAM_SPRITE, linha* TAM_SPRITE, coluna * TAM_SPRITE + TAM_SPRITE, linha * TAM_SPRITE+TAM_SPRITE, null);
+	}
+	
+	private void desenhaSprite(Graphics g, Image img, int x, int y, int frame, int largura, int altura) {
+		g.drawImage(img, x, y, x + largura, y + altura, frame * altura, /*frame * largura*/ 0, frame * altura + altura, /*linha * largura +*/ largura, null);
 	}
 	
 	private void desenhaBackground(Graphics g) {
@@ -147,11 +155,32 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		}
 	}
 	
+	private void desenhaAnimacao(String anim, Image img, Graphics g, Agente a, int largura, int altura) {
+		int frameAtual;
+		long tempoAgora = System.currentTimeMillis();
+		
+		if(isAnimacaoAtiva(anim, a, tempoAgora)) {
+			frameAtual = getFrameCorrente(anim, a);
+			
+			if(tempoAgora >= getTimeProximoRender(anim, a)) {			
+				setTimeProximoRender(anim, a, tempoAgora + INTERVALO_RENDER_SPRITES);
+				// TODO: corrigir o número máximo de frames
+				incrementaFrame(anim, a, frameAtual);
+			}
+			
+			desenhaSprite(g, img, a.getX() - largura/2, a.getY() - altura/2, frameAtual, largura, altura);
+		}			
+	}
+	
 	private void desenhaAgente(Graphics g, Agente a) {
 		int i 			= 0;
-		int frameAtual 	= getFrameCorrente(a);
-		long tempoAgora = Calendar.getInstance().getTimeInMillis();
+		int frameAtual 	= getFrameCorrente("agente", a);
+		long tempoAgora = System.currentTimeMillis();
 
+		desenhaAnimacao("energia", 		imgEnergia,   g, a, 200, 200);
+		desenhaAnimacao("recebeuMsg", 	imgMensagens, g, a, 160, 160);
+		desenhaAnimacao("enviouMsg", 	imgMensagens, g, a, 160, 160);
+		
 		switch(a.getDirecao()) {
 			case Agente.DIREITA:
 				i = 2;
@@ -173,30 +202,41 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 			// idle?
 		}
 		
-		if(tempoAgora >= getTimeProximoRender(a)) {			
-			setTimeProximoRender(a, tempoAgora + INTERVALO_RENDER_SPRITES);
-			incrementaFrame(a, frameAtual);
-		}
+		frameAtual = getFrameCorrente("agente", a);
 		
+		if(tempoAgora >= getTimeProximoRender("agente", a)) {			
+			setTimeProximoRender("agente", a, tempoAgora + INTERVALO_RENDER_SPRITES);
+			incrementaFrame("agente", a, frameAtual);
+		}
+
 		desenhaSprite(g, a.getX(), a.getY(), i, frameAtual, getTipoSprite(a));
 	}
 	
-	private Long getTimeProximoRender(Agente a) {
-		Long tempo = (Long)a.getDados().get("proximoRender");
+	private boolean isAnimacaoAtiva(String anim, Agente a, long tempoAgora) {
+		Long tempo = (Long)a.getDados().get(anim);
+		return tempo != null && tempo >= tempoAgora;
+	}
+	
+	private void ativaAnimacao(String anim, Agente a, long duracao) {
+		a.getDados().put(anim, System.currentTimeMillis() + duracao);	
+	}
+	
+	private Long getTimeProximoRender(String anim, Agente a) {
+		Long tempo = (Long)a.getDados().get(anim + "proximoRender");
 		return tempo != null ? tempo : 0;
 	}
 	
-	private void setTimeProximoRender(Agente a, long tempo) {
-		a.getDados().put("proximoRender", tempo);
+	private void setTimeProximoRender(String anim, Agente a, long tempo) {
+		a.getDados().put(anim + "proximoRender", tempo);
 	}
 	
-	private Integer getFrameCorrente(Agente a) {
-		Integer frame = (Integer)a.getDados().get("frame");
+	private Integer getFrameCorrente(String anim, Agente a) {
+		Integer frame = (Integer)a.getDados().get(anim + "frame");
 		return frame != null ? frame : 0;
 	}
 	
-	private void incrementaFrame(Agente a, int frameAtual) {
-		a.getDados().put("frame", frameAtual < (FRAMES_SPRITE -1) ? frameAtual + 1 : 0);
+	private void incrementaFrame(String anim, Agente a, int frameAtual) {
+		a.getDados().put(anim + "frame", frameAtual < (FRAMES_SPRITE -1) ? frameAtual + 1 : 0);
 	}
 	
 	private Integer getTipoSprite(Agente a) {
@@ -224,7 +264,7 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	/////////////////////
 	
 	public void agenteRecebeuEnergia(Agente a) {
-		
+		//ativaAnimacao("energia", a, 500);
 	}
 	
 	public void agenteTomouDano(Agente a) {
@@ -251,10 +291,10 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	}
 
 	public void agenteEnviouMensagem(Agente a, String msg) {
-		
+		ativaAnimacao("enviouMsg", a, 1000);	
 	}
 
 	public void agenteRecebeuMensagem(Agente destinatario, Agente remetente) {
-		
+		ativaAnimacao("recebeuMsg", destinatario, 500);
 	}
 }
