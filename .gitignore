@@ -1,3 +1,9 @@
 *.class
 
 .DS_Store
+
+.classpath
+
+.project
+
+.settings/org.eclipse.core.resources.prefs
