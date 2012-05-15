@@ -16,9 +16,11 @@ class Constants
 {
 	// Constantes para controle da tela (tamanho, resolução, etc).
 	public static final int LARGURA_TELA 						= 900;
-	public static final int ALTURA_TELA 						= 700;	
+	public static final int ALTURA_TELA 						= 700;
+	public static final int ALTURA_BARRA_TOPO_TELA 				= 30;
 	public static final int LARGURA_MAPA						= LARGURA_TELA - 40;	
-	public static final int ALTURA_MAPA							= ALTURA_TELA - 40;	
+	public static final int ALTURA_MAPA							= ALTURA_TELA - 40;
+	public static final boolean TELA_USAR_BARRA_TOPO			= false;
 	
 	// Define de quanto em quanto tempo a arena irá atualizar
 	// todos os agentes

@@ -16,20 +16,12 @@ import java.util.Vector;
 import java.lang.reflect.Constructor;
 
 class Arena implements Runnable {
-	// Constantes para controle da tela (tamanho, resolução, etc).
-	public static final int LARGURA_TELA = 800;
-	public static final int ALTURA_TELA = 600;
-	public static final int TAM_PIXEL = 4;
-
-	// Define de quanto em quanto tempo a arena irá atualizar
-	// todos os agentes
-	public static final long INTERVALO_UPDATE = 100;
-
 	private Vector<Entidade> entidades;
 	private Vector<Entidade> nascendo;
 	private Vector<Entidade> morrendo;
 	private Desenhista desenhista;
 	private Estatistico estatistico;
+	private Teclado teclado;
 	private long ultimoUpdate;
 	private long horaInicio;
 	private boolean ativa;
@@ -47,7 +39,7 @@ class Arena implements Runnable {
 
 	private void initTela() {
 		this.desenhista = new DesenhistaSimples2D(); // TODO: usar o render definido no config.
-		this.desenhista.init(this);
+		this.desenhista.init(this, teclado);
 	}
 
 	private void criaAmbiente() {
@@ -57,6 +49,7 @@ class Arena implements Runnable {
 		nascendo 		= new Vector<Entidade>();
 		morrendo 		= new Vector<Entidade>();
 		estatistico 	= new Estatistico(this);
+		teclado			= new Teclado();
 	}
 
 	private void adicionaAgentes() {
@@ -96,21 +89,28 @@ class Arena implements Runnable {
 	public void run() {
 		long agora;
 		
-		horaInicio = Calendar.getInstance().getTimeInMillis();
+		horaInicio = System.currentTimeMillis();
 		
 		while (ativa) {
-			agora = Calendar.getInstance().getTimeInMillis();
+			agora = System.currentTimeMillis();
 			
 			if ((agora - ultimoUpdate) >= Constants.INTERVALO_UPDATE) {
 				update();
 				ultimoUpdate = agora;
 			}
 			
+			processaTeclado();
 			estatistico.colheEstatisticas();
 			desenhista.render();
 		}
 		
 		estatistico.imprimeEstatisticas();
+	}
+	
+	private void processaTeclado() {
+		if(teclado.isAnyKeyDown()) {
+			System.out.println("Tecla pressionada! " + teclado.getLastKeyPressed());
+		}
 	}
 
 	private void update() {

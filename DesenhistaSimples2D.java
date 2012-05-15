@@ -8,6 +8,9 @@ import java.io.*;
 import javax.imageio.*;
 import javax.swing.JFrame;
 
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.geom.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -37,20 +40,39 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	private int spriteAtual;
 	
 	public DesenhistaSimples2D() {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setUndecorated(true);
-		this.setSize(Constants.LARGURA_TELA, Constants.ALTURA_TELA);
-		this.setVisible(true);
- 
-		this.createBufferStrategy(2);
+		final Frame a = this;
+		
+		// Need to add this to handle window closing events with the awt Frame.
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				a.setVisible(false);
+				a.dispose();
+				System.exit(0);
+			}
+		});
+		
+		if(Constants.TELA_USAR_BARRA_TOPO) {
+			setLocationRelativeTo(null); // centraliza a janela
+			setUndecorated(false);			
+		} else {
+			setUndecorated(true);
+		}
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(Constants.LARGURA_TELA, Constants.ALTURA_TELA + Constants.ALTURA_BARRA_TOPO_TELA);
+		setVisible(true);
+
+		createBufferStrategy(2);
 	}
 	
-	public void init(Arena a) {
+	public void init(Arena a, KeyListener k) {
 		arena = a;
 		tipoSprite = new HashMap<String, Integer>();
 		spriteAtual = SPRITE_RUIVO;
 		
 		carregaAssets();
+		addKeyListener(k);
 	}
 	
 	public void render() {
