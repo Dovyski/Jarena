@@ -27,6 +27,7 @@ class Arena implements Runnable {
 	private long horaInicio;
 	private boolean ativa;
 	private long intervaloUpdate;
+	private boolean debug;
 
 	public Arena() {
 		// Inicializamos as coisas da arena (agentes, energia, etc)
@@ -130,8 +131,14 @@ class Arena implements Runnable {
 			intervaloUpdate = Constants.INTERVALO_UPDATE;
 		}
 		
-		if(teclado.isKeyDown(KeyEvent.VK_Q)) {
+		if(teclado.isKeyDown(KeyEvent.VK_Q) || teclado.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			termina();
+		}
+		
+		if(teclado.isKeyDown(KeyEvent.VK_D)) {
+			debug = true;
+		} else {
+			debug = false;
 		}
 	}
 
@@ -210,5 +217,9 @@ class Arena implements Runnable {
 	
 	public long getTimestampInicio() {
 		return horaInicio;
+	}
+	
+	public boolean isDebug() {
+		return debug;
 	}
 }

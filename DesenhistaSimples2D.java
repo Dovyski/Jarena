@@ -106,6 +106,19 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 	}
 
+	public int getTamanho(Entidade e, int tipo) {
+		int ret = 0;
+		
+		if(e instanceof Agente) {
+			ret = TAM_SPRITE;
+			
+		} else if(e instanceof PontoEnergia) {
+			ret = tipo == LARGURA ? 50 : 60;
+		}
+		
+		return ret;
+	}
+	
 	private void renderiza(Graphics g) {
 		desenhaBackground(g);
 		
@@ -215,6 +228,11 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		}
 
 		desenhaSprite(g, a.getX(), a.getY(), i, frameAtual, getTipoSprite(a));
+		
+		if(arena.isDebug()) {
+			g.setColor(Color.GREEN);
+			g.fillRect(a.getX() + getTamanho(a, LARGURA)/2 - 3, a.getY() + getTamanho(a, ALTURA)/2 - 3, 6, 6);
+		}
 	}
 	
 	private boolean isAnimacaoAtiva(String anim, Agente a, long tempoAgora) {
@@ -261,6 +279,11 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	
 	private void desenhaPontoEnergia(Graphics g, PontoEnergia p) {
 		g.drawImage(imgPontosEnergia, p.getX(), p.getY(), p.getX()+50, p.getY()+60, 55, 0, 90, 60, null);
+		
+		if(arena.isDebug()) {
+			g.setColor(Color.RED);
+			g.fillRect(p.getX() + getTamanho(p, LARGURA)/2 - 3, p.getY() + getTamanho(p, ALTURA)/2 - 3, 6, 6);
+		}
 	}
 	
 	
@@ -269,7 +292,7 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	/////////////////////
 	
 	public void agenteRecebeuEnergia(Agente a) {
-		//ativaAnimacao("energia", a, 500);
+		ativaAnimacao("energia", a, 500);
 	}
 	
 	public void agenteTomouDano(Agente a) {

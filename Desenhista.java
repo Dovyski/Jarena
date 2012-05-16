@@ -7,9 +7,13 @@ import java.awt.event.KeyListener;
 
 interface Desenhista
 {
+	public static final int LARGURA = 0;
+	public static final int ALTURA 	= 1;
+	
 	public void init(Arena a, KeyListener k);
 	public void render();
 	public void terminate();
+	public int getTamanho(Entidade e, int tipo);
 	
 	// Métodos invocados para avisar sobre coisas acontecendo na arena
 	public void agenteRecebeuEnergia(Agente a);
