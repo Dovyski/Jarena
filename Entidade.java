@@ -94,7 +94,7 @@ abstract class Entidade
 	
 	public double distancia(Entidade a) {
 		int x,y;
-		Desenhista d = getArena().getDesenhista();
+		Desenhista d = arena.getDesenhista(); // IMPORTANTE: não pode ser getArena()! Vide Agente#protegeInformacoes().
 		
 		x = (a.getX() + d.getTamanho(a, Desenhista.LARGURA)/2) - (getX() + d.getTamanho(this, Desenhista.LARGURA)/2);
 		y = (a.getY() + d.getTamanho(a, Desenhista.ALTURA)/2) - (getY() + d.getTamanho(this, Desenhista.ALTURA)/2);

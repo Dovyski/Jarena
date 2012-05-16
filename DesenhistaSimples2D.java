@@ -36,10 +36,13 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	private Image imgBackground;
 	private Image imgSprites;
 	private Image imgPontosEnergia;
-	private Image imgEnergia;
-	private Image imgMensagens;
 	private HashMap<String, Integer> tipoSprite;	
 	private int spriteAtual;
+	
+	private Color corAuraEnergia 	= new Color(0f, 0f, 1f, 0.3f);
+	private Color corAuraCombate 	= new Color(1f, 0f, 0f, 0.5f);
+	private Color corAuraRecebeuMsg = new Color(0f, 1f, 0f, 0.5f);
+	private Color corAuraEnviouMsg  = new Color(1f, 0f, 1f, 0.5f);
 	
 	public DesenhistaSimples2D() {
 		final Frame a = this;
@@ -137,8 +140,6 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 			imgBackground 		= ImageIO.read(new File("imagens/desert.png"));			
 			imgSprites	 		= ImageIO.read(new File("imagens/sprites1.png"));
 			imgPontosEnergia	= ImageIO.read(new File("imagens/towers.png"));
-			imgEnergia			= ImageIO.read(new File("imagens/energy.png"));
-			imgMensagens		= ImageIO.read(new File("imagens/messages.png"));
 			
 		} catch(IOException e) {
 			System.out.println("Não foi possível carregar a imagem...");
@@ -183,11 +184,30 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 			if(tempoAgora >= getTimeProximoRender(anim, a)) {			
 				setTimeProximoRender(anim, a, tempoAgora + INTERVALO_RENDER_SPRITES);
 				// TODO: corrigir o número máximo de frames
-				incrementaFrame(anim, a, frameAtual);
+				incrementaFrame(anim, a, frameAtual, 3);
 			}
 			
 			desenhaSprite(g, img, a.getX() - largura/2, a.getY() - altura/2, frameAtual, largura, altura);
 		}			
+	}
+	
+	private void desenhaAuraEmbaixoPes(Graphics g, Agente a, String anim, int maxFrames, int diametro, Color cor) {
+		int frameAtual;
+		long tempoAgora = System.currentTimeMillis();
+		
+		if(isAnimacaoAtiva(anim, a, tempoAgora)) {
+			frameAtual = getFrameCorrente(anim, a);
+			
+			if(tempoAgora >= getTimeProximoRender(anim, a)) {			
+				setTimeProximoRender(anim, a, tempoAgora + INTERVALO_RENDER_SPRITES);
+				incrementaFrame(anim, a, frameAtual, maxFrames);
+			}
+			
+			diametro *= frameAtual;
+			
+			g.setColor(cor);
+			g.fillOval(a.getX() + getTamanho(a, LARGURA)/2 - diametro/2, a.getY() + getTamanho(a, ALTURA)/2 - diametro/2, diametro, diametro);
+		}	
 	}
 	
 	private void desenhaAgente(Graphics g, Agente a) {
@@ -195,9 +215,9 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		int frameAtual 	= getFrameCorrente("agente", a);
 		long tempoAgora = System.currentTimeMillis();
 
-		desenhaAnimacao("energia", 		imgEnergia,   g, a, 200, 200);
-		desenhaAnimacao("recebeuMsg", 	imgMensagens, g, a, 160, 160);
-		desenhaAnimacao("enviouMsg", 	imgMensagens, g, a, 160, 160);
+		desenhaAuraEmbaixoPes(g, a, "energia", 		4, 15, corAuraEnergia);
+		desenhaAuraEmbaixoPes(g, a, "recebeuMsg", 	4, 20, corAuraRecebeuMsg);
+		desenhaAuraEmbaixoPes(g, a, "enviouMsg", 	4, 20, corAuraEnviouMsg);
 		
 		switch(a.getDirecao()) {
 			case Agente.DIREITA:
@@ -224,7 +244,7 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		
 		if(tempoAgora >= getTimeProximoRender("agente", a)) {			
 			setTimeProximoRender("agente", a, tempoAgora + INTERVALO_RENDER_SPRITES);
-			incrementaFrame("agente", a, frameAtual);
+			incrementaFrame("agente", a, frameAtual, FRAMES_SPRITE);
 		}
 
 		desenhaSprite(g, a.getX(), a.getY(), i, frameAtual, getTipoSprite(a));
@@ -258,8 +278,8 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		return frame != null ? frame : 0;
 	}
 	
-	private void incrementaFrame(String anim, Agente a, int frameAtual) {
-		a.getDados().put(anim + "frame", frameAtual < (FRAMES_SPRITE -1) ? frameAtual + 1 : 0);
+	private void incrementaFrame(String anim, Agente a, int frameAtual, int maxFrames) {
+		a.getDados().put(anim + "frame", frameAtual < (maxFrames -1) ? frameAtual + 1 : 0);
 	}
 	
 	private Integer getTipoSprite(Agente a) {
