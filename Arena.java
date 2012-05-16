@@ -7,6 +7,7 @@
  */
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import javax.swing.*;
 import javax.imageio.*;
@@ -25,6 +26,7 @@ class Arena implements Runnable {
 	private long ultimoUpdate;
 	private long horaInicio;
 	private boolean ativa;
+	private long intervaloUpdate;
 
 	public Arena() {
 		// Inicializamos as coisas da arena (agentes, energia, etc)
@@ -45,6 +47,7 @@ class Arena implements Runnable {
 	private void criaAmbiente() {
 		ativa			= true;
 		ultimoUpdate 	= 0;
+		intervaloUpdate	= Constants.INTERVALO_UPDATE;
 		entidades 		= new Vector<Entidade>();
 		nascendo 		= new Vector<Entidade>();
 		morrendo 		= new Vector<Entidade>();
@@ -98,7 +101,7 @@ class Arena implements Runnable {
 		while (ativa) {
 			agora = System.currentTimeMillis();
 			
-			if ((agora - ultimoUpdate) >= Constants.INTERVALO_UPDATE) {
+			if ((agora - ultimoUpdate) >= intervaloUpdate) {
 				update();
 				ultimoUpdate = agora;
 			}
@@ -109,11 +112,26 @@ class Arena implements Runnable {
 		}
 		
 		estatistico.imprimeEstatisticas();
+		desenhista.terminate();
+	}
+	
+	public void termina() {
+		ativa = false;
 	}
 	
 	private void processaTeclado() {
-		if(teclado.isAnyKeyDown()) {
-			System.out.println("Tecla pressionada! " + teclado.getLastKeyPressed());
+		if(teclado.isKeyDown(KeyEvent.VK_UP)) {
+			intervaloUpdate -= Constants.INTERVALO_UPDATE_INCREMENTO;
+			
+		} else if(teclado.isKeyDown(KeyEvent.VK_DOWN)) {
+			intervaloUpdate += Constants.INTERVALO_UPDATE_INCREMENTO;
+			
+		} else if(teclado.isKeyDown(KeyEvent.VK_RIGHT) || teclado.isKeyDown(KeyEvent.VK_LEFT)) {
+			intervaloUpdate = Constants.INTERVALO_UPDATE;
+		}
+		
+		if(teclado.isKeyDown(KeyEvent.VK_Q)) {
+			termina();
 		}
 	}
 
@@ -142,7 +160,7 @@ class Arena implements Runnable {
 		}
 		
 		if(isFimCombate()) {
-			ativa = false;
+			termina();
 		}
 	}
 	

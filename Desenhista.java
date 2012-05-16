@@ -9,6 +9,7 @@ interface Desenhista
 {
 	public void init(Arena a, KeyListener k);
 	public void render();
+	public void terminate();
 	
 	// Métodos invocados para avisar sobre coisas acontecendo na arena
 	public void agenteRecebeuEnergia(Agente a);

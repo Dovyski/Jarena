@@ -64,7 +64,7 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(Constants.LARGURA_TELA, Constants.ALTURA_TELA + Constants.ALTURA_BARRA_TOPO_TELA);
 		setVisible(true);
-
+		
 		createBufferStrategy(2);
 	}
 	
@@ -99,6 +99,11 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
         //Tell the System to do the Drawing now, otherwise it can take a few extra ms until 
         //Drawing is done which looks very jerky
         Toolkit.getDefaultToolkit().sync();
+	}
+	
+	public void terminate() {
+		WindowEvent wev = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
 	}
 
 	private void renderiza(Graphics g) {

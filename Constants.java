@@ -25,6 +25,7 @@ class Constants
 	// Define de quanto em quanto tempo a arena irá atualizar
 	// todos os agentes
 	public static final long INTERVALO_UPDATE 					= 200;
+	public static final long INTERVALO_UPDATE_INCREMENTO		= 1;
 	
 	// Informações sobre entidade
 	public static final int ENTIDADE_ENERGIA_INICIAL 			= 1000;	
