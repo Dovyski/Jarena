@@ -33,7 +33,7 @@ class Constants
 	public static final int ENTIDADE_ENERGIA_GASTO_VIVER 		= 1;
 	public static final int ENTIDADE_ENERGIA_GASTO_DIVIDIR 		= 20;
 	public static final int ENTIDADE_COMBATE_DANO 				= 5;
-	public static final int ENTIDADE_COMBATE_RECOMPENSA			= 30;
+	public static final int ENTIDADE_COMBATE_RECOMPENSA			= 200;
 	public static final int ENTIDADE_VELOCIDADE 				= 5;
 	
 	// Informações sobre agentes
@@ -48,4 +48,8 @@ class Constants
 	public static final int PONTO_ENERGIA_ENTREGA_TURNO				= ENTIDADE_ENERGIA_GASTO_VIVER + ENTIDADE_ENERGIA_GASTO_ANDAR + 2;
 	public static final double PONTO_ENERGIA_AREA					= 10;
 	public static final int PONTO_ENERGIA_QUANTIDADE				= 5;
+	public static final boolean PONTO_ENERGIA_MOVEL					= true;
+	public static final int PONTO_ENERGIA_VELOCIDADE				= ENTIDADE_VELOCIDADE + 1;
+	public static final int PONTO_ENERGIA_TEMPO_DESCANSO			= 3000; // em milisegundos
+	public static final int PONTO_ENERGIA_TEMPO_ANDANDO				= 3000; // em milisegundos
 }

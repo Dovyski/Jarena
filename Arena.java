@@ -60,7 +60,7 @@ class Arena implements Runnable {
 
 		for (i = 0; i < 15; i++) {
 			adicionaEntidade(new AgenteDummy(0, 0, Constants.ENTIDADE_ENERGIA_INICIAL));						
-			adicionaEntidade(new AgenteInimigo(Constants.LARGURA_TELA, 0, Constants.ENTIDADE_ENERGIA_INICIAL));						
+			adicionaEntidade(new AgenteInimigo((int)(Constants.LARGURA_TELA * 0.95), 0, Constants.ENTIDADE_ENERGIA_INICIAL));						
 		}
 	}
 
@@ -72,7 +72,7 @@ class Arena implements Runnable {
 
 		for (i = 0; i < Constants.PONTO_ENERGIA_QUANTIDADE; i++) {
 			rand = Math.random();
-			adicionaEntidade(new PontoEnergia((int) (Constants.LARGURA_TELA * 0.8 * rand), j * i, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL));
+			adicionaEntidade(new PontoEnergia((int) (Constants.LARGURA_TELA * 0.95 * rand), j * i, Constants.PONTO_ENERGIA_SUPRIMENTO_INICIAL));
 		}
 	}
 

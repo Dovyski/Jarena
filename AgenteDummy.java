@@ -10,6 +10,7 @@ class AgenteDummy extends Agente
 {
 	public AgenteDummy(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);
+		setDirecao(geraDirecaoAleatoria());
 	}
 	
 	public void pensa() {
@@ -25,7 +26,7 @@ class AgenteDummy extends Agente
 		// Se o agente conseguie se dividir (tem energia) e se o total de energia
 		// do agente é maior que 400, nos dividimos. O agente filho terá a metade
 		// da nossa energia atual.
-		if(podeDividir() && getEnergia() >= 400) {
+		if(podeDividir() && getEnergia() >= 800) {
 			divide();
 		}
 	}
