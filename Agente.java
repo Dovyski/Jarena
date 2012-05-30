@@ -63,7 +63,7 @@ abstract class Agente extends Entidade
 	 * @param msg string contendo o contéudo da mensagem enviada pelo agente aliado.
 	 * @param remetente agente que enviou a mensagem.
 	 */
-	abstract void recebeuMensagem(String msg, Agente remetente);
+	abstract void recebeuMensagem(String msg);
 	
 	/**
 	 * Esse método deve retornar uma string representando o nome da equipe. O nome da equipe
@@ -460,7 +460,7 @@ abstract class Agente extends Entidade
 	public final void sinalizaRecebeuMensagem(String msg, Agente remetente) {
 		protegeInformacoes(true);
 		try {
-			recebeuMensagem(msg, remetente);
+			recebeuMensagem(msg);
 			super.getArena().getDesenhista().agenteRecebeuMensagem(this, remetente);
 			
 		} catch (Exception e) {

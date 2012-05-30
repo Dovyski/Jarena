@@ -44,7 +44,7 @@ class AgenteDummy extends Agente
 		// Invocado se estamos batalhando e nosso inimigo morreu.
 	}
 	
-	public void recebeuMensagem(String msg, Agente remetente) {
+	public void recebeuMensagem(String msg) {
 		// Invocado sempre que um agente aliado próximo envia uma mensagem.
 	}
 	
