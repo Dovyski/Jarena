@@ -257,7 +257,7 @@ abstract class Agente extends Entidade
 		Agente d;
 		
 		for(Entidade a : super.getArena().getEntidades()) {
-			if((a instanceof Agente) && (distancia(a) <= Constants.AGENTE_ALCANCE_MENSAGEM)) {
+			if((a instanceof Agente) && (((Agente)a).getEquipe() == getEquipe()) && (distancia(a) <= Constants.AGENTE_ALCANCE_MENSAGEM)) {
 				
 				super.getArena().getDesenhista().agenteEnviouMensagem((Agente) a, msg);
 				
