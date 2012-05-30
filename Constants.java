@@ -37,7 +37,7 @@ class Constants
 	public static final int ENTIDADE_VELOCIDADE 				= 5;
 	
 	// Informações sobre agentes
-	public static final int AGENTE_ALCANCE_MENSAGEM					= 70;
+	public static final int AGENTE_ALCANCE_MENSAGEM					= 250;
 	
 	// Informações sobre o estatistico
 	public static final long ESTATISTICO_INTERVALO 					= 1000;
