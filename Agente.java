@@ -414,7 +414,7 @@ abstract class Agente extends Entidade
 		System.out.println("*** [AGENTE] com EXCECAO, morrendo... " + this);
 		e.printStackTrace();
 		
-		getArena().getDesenhista().agenteMorreuPorExcecao(this, e);
+		super.getArena().getDesenhista().agenteMorreuPorExcecao(this, e);
 		
 		protegeInformacoes(false);
 		morre();
