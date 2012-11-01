@@ -9,7 +9,7 @@ public class Alien extends FlxSprite		//Class declaration for the squid monster 
 	private float shotClock;			//A simple timer for deciding when to shoot
 	private int originalX;				//Saves the starting horizontal position (for movement logic)
 	
-	private static final String ImgAlien = "flxinvaders/pack:alien";	//The graphic of the squid monster
+	private static final String ImgAlien = "assets/flixel/pack:alien";	//The graphic of the squid monster
 	
 	//This is the constructor for the squid monster.
 	//We are going to set up the basic values and then create a simple animation.

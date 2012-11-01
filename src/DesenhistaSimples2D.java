@@ -137,9 +137,9 @@ class DesenhistaSimples2D extends JFrame implements Desenhista
 	
 	private void carregaAssets() {
 		try {
-			imgBackground 		= ImageIO.read(new File("imagens/desert.png"));			
-			imgSprites	 		= ImageIO.read(new File("imagens/sprites1.png"));
-			imgPontosEnergia	= ImageIO.read(new File("imagens/towers.png"));
+			imgBackground 		= ImageIO.read(new File("assets/simple/desert.png"));			
+			imgSprites	 		= ImageIO.read(new File("assets/simple/sprites1.png"));
+			imgPontosEnergia	= ImageIO.read(new File("assets/simple/towers.png"));
 			
 		} catch(IOException e) {
 			System.out.println("Não foi possível carregar a imagem...");

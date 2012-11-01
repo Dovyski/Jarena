@@ -10,7 +10,7 @@ public class PlayerShip extends FlxSprite		//Class declaration for the player's 
 	private FlxGamePad _pad;
 	private boolean _justPressed;
 	
-	private static final String ImgShip = "flxinvaders/pack:ship";	//Graphic of the player's ship
+	private static final String ImgShip = "assets/flixel/pack:ship";	//Graphic of the player's ship
 	
 	//Constructor for the player - just initializing a simple sprite using a graphic.
 	public PlayerShip(FlxGamePad Pad)
