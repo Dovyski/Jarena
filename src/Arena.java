@@ -41,7 +41,7 @@ class Arena implements Runnable {
 	}
 
 	private void initTela() {
-		this.desenhista = new DesenhistaSimples2D(); // TODO: usar o render definido no config.
+		this.desenhista = new DesenhistaFlixel(); // TODO: usar o render definido no config.
 		this.desenhista.init(this, teclado);
 	}
 
