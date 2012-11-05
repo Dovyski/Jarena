@@ -6,13 +6,15 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
+package br.uffs.cc.jarena;
+
 import java.awt.*;
 import java.io.*;
 import javax.swing.*;
 import javax.imageio.*;
 import java.util.ArrayList;
 
-class Constants
+public class Constants
 {
 	// Constantes para controle da tela (tamanho, resolução, etc).
 	public static final int LARGURA_TELA 						= 900;

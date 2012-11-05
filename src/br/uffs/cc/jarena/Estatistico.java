@@ -1,3 +1,5 @@
+package br.uffs.cc.jarena;
+
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Set;

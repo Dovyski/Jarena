@@ -1,3 +1,7 @@
+package br.uffs.cc.jarena;
+
+import br.uffs.cc.jarena.renders.*;
+
 /**
  * Representa um agente na arena. O agente pode se mover, guardar energia, se multiplicar e
  * morrer.
@@ -5,7 +9,7 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
-abstract class Agente extends Entidade
+abstract public class Agente extends Entidade
 {	
 	public static final int DIREITA						= 1;
 	public static final int ESQUERDA					= 2;
@@ -28,14 +32,14 @@ abstract class Agente extends Entidade
 	 * que cada jogador deve colocar a lógica para fazer seu agente se movimentar, se dividir,
 	 * decidir se combate, etc.
 	 */
-	abstract void pensa();
+	public abstract void pensa();
 	
 	/**
 	 * Invocado pela arena sempre que o agente receber energia de algum ponto de energia.
 	 * Enquanto agente estiver no alcance do ponto de energia, esse método será invocado a
 	 * cada turno.
 	 */
-	abstract void recebeuEnergia();
+	public abstract void recebeuEnergia();
 	
 	/**
 	 * Invocado pela arena sempre que o agente estiver ocupando a mesma posição que um outro
@@ -45,7 +49,7 @@ abstract class Agente extends Entidade
 	 * 
 	 * @param energiaRestanteInimigo quantidade de energia restante do inimigo com o qual se está batalhando.
 	 */
-	abstract void tomouDano(int energiaRestanteInimigo);
+	public abstract void tomouDano(int energiaRestanteInimigo);
 	
 	/**
 	 * Invocado pela arena sempre que o agente estiver envolvido em uma batalha e o agente inimigo
@@ -54,7 +58,7 @@ abstract class Agente extends Entidade
 	 * 
 	 * Ao ganhar um combate, o agente ganha um bonus de energia.
 	 */
-	abstract void ganhouCombate();
+	public abstract void ganhouCombate();
 	
 	/**
 	 * Invocado sempre que o agente receber uma mensagem de algum outro agente de sua equipe que estiver
@@ -63,7 +67,7 @@ abstract class Agente extends Entidade
 	 * @param msg string contendo o contéudo da mensagem enviada pelo agente aliado.
 	 * @param remetente agente que enviou a mensagem.
 	 */
-	abstract void recebeuMensagem(String msg);
+	public abstract void recebeuMensagem(String msg);
 	
 	/**
 	 * Esse método deve retornar uma string representando o nome da equipe. O nome da equipe
@@ -71,7 +75,7 @@ abstract class Agente extends Entidade
 	 * 
 	 * @return nome da equipe do agente. Ex.: "OsMalvados", "Destruidores", "FulanoSilva".
 	 */
-	abstract String getEquipe();	
+	public abstract String getEquipe();	
 	
 	
 	

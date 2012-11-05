@@ -1,3 +1,5 @@
+package br.uffs.cc.jarena;
+
 import java.awt.event.KeyListener;
 
 /**
@@ -5,7 +7,7 @@ import java.awt.event.KeyListener;
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
-interface Desenhista
+public interface Desenhista
 {
 	public static final int LARGURA = 0;
 	public static final int ALTURA 	= 1;

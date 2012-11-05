@@ -1,4 +1,4 @@
-package com.yourname.flixelgame;
+package br.uffs.cc.jarena.renders.flixel;
 
 import org.flixel.FlxG;
 import org.flixel.FlxGamePad;

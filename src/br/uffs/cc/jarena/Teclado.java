@@ -6,6 +6,9 @@
  * 1.1 Initial Revision 
  * 
  */
+
+package br.uffs.cc.jarena;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

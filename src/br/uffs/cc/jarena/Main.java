@@ -4,7 +4,9 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
-class Main
+package br.uffs.cc.jarena;
+
+public class Main
 {	
 	public static void main(String arg[]) {
 		Arena a = new Arena();

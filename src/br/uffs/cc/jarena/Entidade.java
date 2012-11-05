@@ -6,9 +6,11 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
  
+package br.uffs.cc.jarena;
+
 import java.util.HashMap;
  
-abstract class Entidade
+public abstract class Entidade
 {
 	private static int contador							= 0;
 	

@@ -3,6 +3,8 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
+package br.uffs.cc.jarena.renders.flixel;
+
 import java.awt.*;
 import javax.swing.JFrame;
 
@@ -10,10 +12,9 @@ import java.awt.event.KeyListener;
 import java.util.HashMap;
 
 import org.flixel.FlxDesktopApplication;
+import br.uffs.cc.jarena.*;
 
-import com.yourname.flixelgame.FlxInvaders;
-
-class DesenhistaFlixel extends JFrame implements Desenhista
+public class DesenhistaFlixel extends JFrame implements Desenhista
 {
 	private static final int TAM_SPRITE = 32;
 	private static final long INTERVALO_RENDER_SPRITES = 150;

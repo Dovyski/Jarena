@@ -5,7 +5,9 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
-class AgenteInimigo extends Agente
+package br.uffs.cc.jarena;
+
+public class AgenteInimigo extends Agente
 {
 	public AgenteInimigo(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);

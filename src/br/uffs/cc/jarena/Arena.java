@@ -6,6 +6,8 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
+package br.uffs.cc.jarena;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.*;
@@ -16,7 +18,10 @@ import java.util.Calendar;
 import java.util.Vector;
 import java.lang.reflect.Constructor;
 
-class Arena implements Runnable {
+import br.uffs.cc.jarena.renders.simple2d.*;
+import br.uffs.cc.jarena.renders.flixel.*;
+
+public class Arena implements Runnable {
 	private Vector<Entidade> entidades;
 	private Vector<Entidade> nascendo;
 	private Vector<Entidade> morrendo;
@@ -41,7 +46,7 @@ class Arena implements Runnable {
 	}
 
 	private void initTela() {
-		this.desenhista = new DesenhistaFlixel(); // TODO: usar o render definido no config.
+		this.desenhista = new DesenhistaSimples2D(); // TODO: usar o render definido no config.
 		this.desenhista.init(this, teclado);
 	}
 

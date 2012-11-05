@@ -5,7 +5,9 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
-class PontoEnergia extends Entidade
+package br.uffs.cc.jarena;
+
+public class PontoEnergia extends Entidade
 {	
 	private int velocidadeX;
 	private int velocidadeY;

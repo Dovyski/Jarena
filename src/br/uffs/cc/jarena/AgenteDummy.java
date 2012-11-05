@@ -6,7 +6,9 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
-class AgenteDummy extends Agente
+package br.uffs.cc.jarena;
+
+public class AgenteDummy extends Agente
 {
 	public AgenteDummy(Integer x, Integer y, Integer energia) {
 		super(x, y, energia);

@@ -3,10 +3,14 @@
  * Fernando Bevilacqua <fernando.bevilacqua@uffs.edu.br>
  */
 
+package br.uffs.cc.jarena.renders.simple2d;
+
 import java.awt.*;
 import java.io.*;
 import javax.imageio.*;
 import javax.swing.JFrame;
+
+import br.uffs.cc.jarena.*;
 
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -17,7 +21,7 @@ import java.awt.image.BufferedImage;
 import java.util.Calendar;
 import java.util.HashMap;
 
-class DesenhistaSimples2D extends JFrame implements Desenhista
+public class DesenhistaSimples2D extends JFrame implements Desenhista
 {
 	private static final int TAM_SPRITE = 32;
 	private static final long INTERVALO_RENDER_SPRITES = 150;
