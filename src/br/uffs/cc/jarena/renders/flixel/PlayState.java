@@ -23,8 +23,8 @@ import com.badlogic.gdx.utils.IntArray;
 public class PlayState extends FlxState
 {
 	private Boolean pronto;
-	public FlxGroup agents;
-	public FlxGroup energyPoints;
+	private FlxGroup agents;
+	private FlxGroup energyPoints;
 	
 	private FlxGamePad pad;
 	
@@ -35,42 +35,18 @@ public class PlayState extends FlxState
 	public void create() {
 		FlxG.setBgColor(0xFF000000);
 		
-		pad = new FlxGamePad(FlxGamePad.LEFT_RIGHT, FlxGamePad.A);
-		
 		agents = new FlxGroup();
 		add(agents);
-			
-		add(pad);
-		pad.setAlpha(0.5f);
 
-		adicionaSprites();
-	}
-	
-	private void adicionaSprites() {
 		Agent a;
-		HashMap <String,Object> dados;
 		
-		for(Entidade e : DesenhistaFlixel.arena.getEntidades()) {
-			if(e instanceof Agente) {
-				dados = e.getDados();
-				
-				if(dados.get("flxSprite") == null) {
-					// Esse agente nunca foi inserido no PlayState. Vamos
-					// configurar ele e inserir então.
-					a = new Agent(e.getX(), e.getY());
-					agents.add(a);
-					
-					// Marcamos ele como inserido no PlayState
-					dados.put("flxSprite", a);
-				} else {
-					// O agente já foi inserido alguma vez.
-					throw new RuntimeException("Alguma coisa estranah");
-				}
-				
-			} else if(e instanceof PontoEnergia) {
-				
-			}
+		for(int i = 0; i < 100; i++) {
+			a = new Agent(0,0);
+			a.kill();
+			agents.add(a);
 		}
+		
+		pronto = true;
 	}
 	
 	public void update()
@@ -85,4 +61,8 @@ public class PlayState extends FlxState
 		
 		super.update();
 	}
+	
+	public Boolean isPronto() 			{ return this.pronto; }
+	public FlxGroup getAgentes() 		{ return this.agents; }
+	public FlxGroup getPontosEnergia() 	{ return this.energyPoints; }
 }

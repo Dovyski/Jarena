@@ -5,11 +5,8 @@
 
 package br.uffs.cc.jarena.renders.flixel;
 
-import java.awt.*;
-
 import java.awt.event.KeyListener;
 import java.util.HashMap;
-import java.util.Vector;
 
 import org.flixel.*;
 import br.uffs.cc.jarena.*;
@@ -29,7 +26,8 @@ public class DesenhistaFlixel implements Desenhista
 	
 	public void render() {
 		HashMap <String,Object> dados;
-		FlxSprite s;
+		FlxSprite s = null;
+		PlayState p = (PlayState) FlxG.getState();
 		
 		for(Entidade e : DesenhistaFlixel.arena.getEntidades()) {
 			dados = e.getDados();
@@ -37,6 +35,17 @@ public class DesenhistaFlixel implements Desenhista
 			if(dados.get("flxSprite") != null) {
 				s = (FlxSprite)dados.get("flxSprite");
 				
+			} else if(p != null && p.isPronto()){
+				// Esse agente nunca foi inserido no PlayState. Vamos
+				// configurar ele e inserir então.
+				s = (FlxSprite) p.getAgentes().getFirstAvailable();
+				s.reset(0, 0);
+				
+				// Marcamos ele como inserido no PlayState
+				dados.put("flxSprite", s);
+			}
+			
+			if(s != null) {
 				s.x = e.getX();
 				s.y = e.getY();
 			}
@@ -99,18 +108,8 @@ public class DesenhistaFlixel implements Desenhista
 	}
 	
 	public void entidadeAdicionada(Entidade e) {
-		/*PlayState p;
-		Agent a;
-		
-		if(e instanceof Agente) {
-			p = (PlayState)FlxG.getState();
-			a = new Agent();
-			
-			p.agents.add(a);
-		}*/
 	}
 	
 	public void entidadeRemovida(Entidade e) {
-		
 	}
 }
