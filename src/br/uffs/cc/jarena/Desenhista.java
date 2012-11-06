@@ -27,4 +27,6 @@ public interface Desenhista
 	public void agenteClonou(Agente origem, Agente clone);
 	public void agenteEnviouMensagem(Agente a, String msg);
 	public void agenteRecebeuMensagem(Agente destinatario, Agente remetente);
+	public void entidadeAdicionada(Entidade e);
+	public void entidadeRemovida(Entidade e);
 }

@@ -349,4 +349,12 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 	public void agenteRecebeuMensagem(Agente destinatario, Agente remetente) {
 		ativaAnimacao("recebeuMsg", destinatario, 500);
 	}
+	
+	public void entidadeAdicionada(Entidade e) {
+		
+	}
+	
+	public void entidadeRemovida(Entidade e) {
+		
+	}
 }

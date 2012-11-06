@@ -6,54 +6,41 @@
 package br.uffs.cc.jarena.renders.flixel;
 
 import java.awt.*;
-import javax.swing.JFrame;
 
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+import java.util.Vector;
 
-import org.flixel.FlxDesktopApplication;
+import org.flixel.*;
 import br.uffs.cc.jarena.*;
 
-public class DesenhistaFlixel extends JFrame implements Desenhista
+public class DesenhistaFlixel implements Desenhista
 {
+	static Arena arena;
 	private static final int TAM_SPRITE = 32;
-	private static final long INTERVALO_RENDER_SPRITES = 150;
-	private static final int FRAMES_SPRITE = 3;
-	
-	private static final int SPRITE_RUIVO 		= 0;
-	private static final int SPRITE_MENINA 		= 1;
-	private static final int SPRITE_VERDE 		= 2;
-	private static final int SPRITE_AZUL 		= 3;
-	private static final int SPRITE_ELFO 		= 4;
-	private static final int SPRITE_CHANEL 		= 5;
-	private static final int SPRITE_MAL 		= 6;
-	private static final int SPRITE_MESTRE 		= 7;
-	
-	private Arena arena;
-	private Image imgBackground;
-	private Image imgSprites;
-	private Image imgPontosEnergia;
-	private HashMap<String, Integer> tipoSprite;	
-	private int spriteAtual;
-	
-	private Color corAuraEnergia 	= new Color(0f, 0f, 1f, 0.3f);
-	private Color corAuraCombate 	= new Color(1f, 0f, 0f, 0.5f);
-	private Color corAuraRecebeuMsg = new Color(0f, 1f, 0f, 0.5f);
-	private Color corAuraEnviouMsg  = new Color(1f, 0f, 1f, 0.5f);
 	
 	public DesenhistaFlixel() {
 	}
 	
 	public void init(Arena a, KeyListener k) {
 		arena = a;
-		tipoSprite = new HashMap<String, Integer>();
-		spriteAtual = SPRITE_RUIVO;
-		addKeyListener(k);
-		
-		new FlxDesktopApplication(new FlxInvaders(), 800, 480);
+		new FlxDesktopApplication(new Aplicacao(), Constants.LARGURA_TELA, Constants.ALTURA_TELA);
 	}
 	
 	public void render() {
+		HashMap <String,Object> dados;
+		FlxSprite s;
+		
+		for(Entidade e : DesenhistaFlixel.arena.getEntidades()) {
+			dados = e.getDados();
+			
+			if(dados.get("flxSprite") != null) {
+				s = (FlxSprite)dados.get("flxSprite");
+				
+				s.x = e.getX();
+				s.y = e.getY();
+			}
+		}
 	}
 	
 	public void terminate() {
@@ -109,5 +96,21 @@ public class DesenhistaFlixel extends JFrame implements Desenhista
 
 	public void agenteRecebeuMensagem(Agente destinatario, Agente remetente) {
 		//ativaAnimacao("recebeuMsg", destinatario, 500);
+	}
+	
+	public void entidadeAdicionada(Entidade e) {
+		/*PlayState p;
+		Agent a;
+		
+		if(e instanceof Agente) {
+			p = (PlayState)FlxG.getState();
+			a = new Agent();
+			
+			p.agents.add(a);
+		}*/
+	}
+	
+	public void entidadeRemovida(Entidade e) {
+		
 	}
 }

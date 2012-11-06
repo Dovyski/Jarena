@@ -58,9 +58,9 @@ public class Alien extends FlxSprite		//Class declaration for the squid monster 
 		{
 			//We counted down to zero, so it's time to shoot a bullet!
 			resetShotClock();
-			FlxSprite bullet = (FlxSprite) ((PlayState)FlxG.getState()).alienBullets.recycle(FlxSprite.class);
-			bullet.reset(x + width/2 - bullet.width/2, y);
-			bullet.velocity.y = 65;
+			//FlxSprite bullet = (FlxSprite) ((PlayState)FlxG.getState()).alienBullets.recycle(FlxSprite.class);
+			//bullet.reset(x + width/2 - bullet.width/2, y);
+			//bullet.velocity.y = 65;
 		}
 	}
 	
