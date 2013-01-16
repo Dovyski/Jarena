@@ -35,10 +35,10 @@ public class DesenhistaFlixel implements Desenhista
 			if(dados.get("flxSprite") != null) {
 				s = (FlxSprite)dados.get("flxSprite");
 				
-			} else if(p != null && p.isPronto()){
-				// Esse agente nunca foi inserido no PlayState. Vamos
-				// configurar ele e inserir então.
-				s = (FlxSprite) p.getAgentes().getFirstAvailable();
+			} else if(p != null && p.isReady()){
+				// Essa entidade nunca foi inserida no PlayState. Vamos
+				// configurar ela e inserir então.
+				s = reciclaSprite(e);
 				s.reset(0, 0);
 				
 				// Marcamos ele como inserido no PlayState
@@ -50,6 +50,21 @@ public class DesenhistaFlixel implements Desenhista
 				s.y = e.getY();
 			}
 		}
+	}
+	
+	private FlxSprite reciclaSprite(Entidade e) {
+		PlayState p = (PlayState) FlxG.getState();
+		FlxSprite s = null;
+		
+		if(p != null && p.isReady()) {
+			if(e instanceof Agente) {
+				s = (FlxSprite) p.getAgents().getFirstAvailable();		
+			} else if (e instanceof PontoEnergia) {
+				s = (FlxSprite) p.getEnergyPoints().getFirstAvailable();
+			}
+		}
+		
+		return s;
 	}
 	
 	public void terminate() {

@@ -17,3 +17,10 @@ ship
   orig: 12, 8
   offset: 0, 0
   index: -1
+sprites1
+  rotate: false
+  xy: 52, 2
+  size: 12, 8
+  orig: 12, 8
+  offset: 0, 0
+  index: -1
