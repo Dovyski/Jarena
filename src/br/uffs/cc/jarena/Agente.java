@@ -65,7 +65,6 @@ abstract public class Agente extends Entidade
 	 * por perto. Para enviar uma mensagem, utilize o método enviaMensagem().
 	 *  
 	 * @param msg string contendo o contéudo da mensagem enviada pelo agente aliado.
-	 * @param remetente agente que enviou a mensagem.
 	 */
 	public abstract void recebeuMensagem(String msg);
 	
