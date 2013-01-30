@@ -45,7 +45,7 @@ public class Constants
 	public static final long ESTATISTICO_INTERVALO 					= 1000;
 	
 	// Informações sobre os pontos de energia
-	public static final int PONTO_ENERGIA_SUPRIMENTO_INICIAL		= 1000;
+	public static final int PONTO_ENERGIA_SUPRIMENTO_INICIAL		= 1500;
 	public static final int PONTO_ENERGIA_REGENERA_TURNO			= 0;
 	public static final int PONTO_ENERGIA_ENTREGA_TURNO				= ENTIDADE_ENERGIA_GASTO_VIVER + ENTIDADE_ENERGIA_GASTO_ANDAR + 2;
 	public static final double PONTO_ENERGIA_AREA					= 40;
