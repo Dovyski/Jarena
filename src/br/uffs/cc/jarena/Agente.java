@@ -1,7 +1,5 @@
 package br.uffs.cc.jarena;
 
-import br.uffs.cc.jarena.renders.*;
-
 /**
  * Representa um agente na arena. O agente pode se mover, guardar energia, se multiplicar e
  * morrer.
