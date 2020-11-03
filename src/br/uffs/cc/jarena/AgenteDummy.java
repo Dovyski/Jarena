@@ -4,7 +4,7 @@ package br.uffs.cc.jarena;
 public class AgenteDummy extends Agente
 {
 	public AgenteDummy(Integer x, Integer y, Integer energia) {
-		super(500, 500, energia);
+		super(300, 400, energia);
 		setDirecao(geraDirecaoAleatoria());
 	}
 	
@@ -47,7 +47,7 @@ public class AgenteDummy extends Agente
 	
 	public String getEquipe() {
 		
-		return "pinto";
+		return "pepo";
 	}
 }
 
