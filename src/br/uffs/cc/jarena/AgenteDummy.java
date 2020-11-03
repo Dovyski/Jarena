@@ -43,7 +43,7 @@ public class AgenteDummy extends Agente
 	}
 	
 	public void recebeuMensagem(String msg) {
-			setDirecao(geraDirecaoAleatoria());
+			para();
 		
 	}
 	
