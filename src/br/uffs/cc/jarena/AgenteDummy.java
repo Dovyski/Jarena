@@ -31,9 +31,7 @@ public class AgenteDummy extends Agente
 	}
 	
 	public void tomouDano(int energiaRestanteInimigo) {
-		if (getEnergia()>=900){
-			morre();
-		}
+		setDirecao(geraDirecaoAleatoria());
 		
 		
 	}
@@ -43,7 +41,7 @@ public class AgenteDummy extends Agente
 	}
 	
 	public void recebeuMensagem(String msg) {
-			para();
+			setDirecao(geraDirecaoAleatoria());
 		
 	}
 	
