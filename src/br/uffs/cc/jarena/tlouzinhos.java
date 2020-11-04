@@ -46,6 +46,7 @@ public class tlouzinhos extends Agente
 				int a;
 				a = getDirecao();
 				setDirecao(a);
+				
 
 			}
 
