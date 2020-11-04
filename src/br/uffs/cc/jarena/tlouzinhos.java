@@ -4,7 +4,7 @@ package br.uffs.cc.jarena;
 public class tlouzinhos extends Agente
 {
 	public tlouzinhos (Integer x, Integer y, Integer energia) {
-		super(300, 400, energia);
+		super(500, 600, energia);
 		setDirecao(geraDirecaoAleatoria());
 	}
 	
