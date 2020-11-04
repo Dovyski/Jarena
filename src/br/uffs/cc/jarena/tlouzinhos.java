@@ -23,6 +23,8 @@ public class tlouzinhos extends Agente
 	
 	public void recebeuEnergia() {
 		enviaMensagem("GANHEI ENERGIA POLA");
+		int a;
+		a = getDirecao();
 		para();
 			
 		
@@ -41,12 +43,14 @@ public class tlouzinhos extends Agente
 	}
 	
 	public void recebeuMensagem(String msg) {
-			if (isParado()){
-				setDirecao(geraDirecaoAleatoria());
+				int a;
+				a = getDirecao();
+				setDirecao(a);
+
 			}
 
 		
-	}
+	
 	
 	public String getEquipe() {
 		
