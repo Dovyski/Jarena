@@ -55,7 +55,7 @@ public class tlouzinhos extends Agente
 	
 	public String getEquipe() {
 		
-		return "pepo";
+		return "ppepo";
 	}
 }
 
