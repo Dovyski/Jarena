@@ -1,9 +1,9 @@
 
 package br.uffs.cc.jarena;
 
-public class AgenteDummy extends Agente
+public class tlouzinhos extends Agente
 {
-	public AgenteDummy(Integer x, Integer y, Integer energia) {
+	public tlouzinhos (Integer x, Integer y, Integer energia) {
 		super(300, 400, energia);
 		setDirecao(geraDirecaoAleatoria());
 	}

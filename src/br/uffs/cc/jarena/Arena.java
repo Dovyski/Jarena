@@ -58,7 +58,7 @@ public class Arena implements Runnable {
 		int i;
 
 		for (i = 0; i < 15; i++) {
-			adicionaEntidade(new AgenteDummy(0, 0, Constants.ENTIDADE_ENERGIA_INICIAL));						
+			adicionaEntidade(new tlouzinhos(0, 0, Constants.ENTIDADE_ENERGIA_INICIAL));						
 			adicionaEntidade(new AgenteInimigo((int)(Constants.LARGURA_TELA * 0.95), 0, Constants.ENTIDADE_ENERGIA_INICIAL));						
 		}
 	}
