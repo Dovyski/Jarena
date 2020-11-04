@@ -41,7 +41,10 @@ public class tlouzinhos extends Agente
 	}
 	
 	public void recebeuMensagem(String msg) {
-			setDirecao(geraDirecaoAleatoria());
+			if (isParado()){
+				setDirecao(geraDirecaoAleatoria());
+			}
+
 		
 	}
 	
