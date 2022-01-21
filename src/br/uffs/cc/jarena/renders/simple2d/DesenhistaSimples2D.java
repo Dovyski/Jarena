@@ -26,6 +26,7 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 	private static final int TAM_SPRITE = 32;
 	private static final long INTERVALO_RENDER_SPRITES = 150;
 	private static final int FRAMES_SPRITE = 3;
+	private static final int HUD_TOP_ALTURA = 50;
 	
 	private static final int SPRITE_RUIVO 		= 0;
 	private static final int SPRITE_MENINA 		= 1;
@@ -36,6 +37,8 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 	private static final int SPRITE_MAL 		= 6;
 	private static final int SPRITE_MESTRE 		= 7;
 	
+    private int offsetY = HUD_TOP_ALTURA + Constants.ALTURA_BARRA_TOPO_TELA;
+
 	private Arena arena;
 	private Image imgBackground;
 	private Image imgSprites;
@@ -137,6 +140,8 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 				desenhaPontoEnergia(g, (PontoEnergia) e);
 			}
 		}
+
+        desenhaHud(g);
 	}
 	
 	private void carregaAssets() {
@@ -155,11 +160,29 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 		int linha  = (tipoSprite <= 3 ? 0 : 4) + i;
 		int coluna = j + (tipoSprite % 4) * FRAMES_SPRITE;
 		
-		g.drawImage(imgSprites, x, y, x + TAM_SPRITE, y + TAM_SPRITE, coluna * TAM_SPRITE, linha* TAM_SPRITE, coluna * TAM_SPRITE + TAM_SPRITE, linha * TAM_SPRITE+TAM_SPRITE, null);
+		g.drawImage(imgSprites,
+                    x,
+                    y + offsetY,
+                    x + TAM_SPRITE,
+                    y + TAM_SPRITE + offsetY,
+                    coluna * TAM_SPRITE,
+                    linha* TAM_SPRITE,
+                    coluna * TAM_SPRITE + TAM_SPRITE,
+                    linha * TAM_SPRITE+TAM_SPRITE,
+                    null);
 	}
 	
 	private void desenhaSprite(Graphics g, Image img, int x, int y, int frame, int largura, int altura) {
-		g.drawImage(img, x, y, x + largura, y + altura, frame * altura, /*frame * largura*/ 0, frame * altura + altura, /*linha * largura +*/ largura, null);
+		g.drawImage(img,
+                    x,
+                    y + offsetY,
+                    x + largura,
+                    y + altura + offsetY,
+                    frame * altura,
+                    /*frame * largura*/ 0,
+                    frame * altura + altura,
+                    /*linha * largura +*/ largura,
+                    null);
 	}
 	
 	private void desenhaBackground(Graphics g) {
@@ -173,10 +196,22 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 		
 		for(i = 0; i < linhas; i++) {
 			for(j = 0; j < colunas; j++) {
-				g.drawImage(imgBackground, j*largura, i*altura, j*largura+largura, i*altura+altura, 0, 0, largura, altura - 20, null);
+				g.drawImage(imgBackground,
+                            j * largura,
+                            i * altura + offsetY,
+                            j * largura + largura,
+                            i * altura + altura + offsetY,
+                            0,
+                            0,
+                            largura,
+                            altura - 20,
+                            null);
 			}
 		}
 	}
+
+    private void desenhaHud(Graphics g) {
+    }
 	
 	private void desenhaAnimacao(String anim, Image img, Graphics g, Agente a, int largura, int altura) {
 		int frameAtual;
@@ -210,7 +245,10 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 			diametro *= frameAtual;
 			
 			g.setColor(cor);
-			g.fillOval(a.getX() + getTamanho(a, LARGURA)/2 - diametro/2, a.getY() + getTamanho(a, ALTURA)/2 - diametro/2, diametro, diametro);
+			g.fillOval(a.getX() + getTamanho(a, LARGURA)/2 - diametro/2,
+                       a.getY() + getTamanho(a, ALTURA)/2 - diametro/2 + offsetY,
+                       diametro,
+                       diametro);
 		}	
 	}
 	
@@ -251,11 +289,19 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 			incrementaFrame("agente", a, frameAtual, FRAMES_SPRITE);
 		}
 
-		desenhaSprite(g, a.getX(), a.getY(), i, frameAtual, getTipoSprite(a));
+		desenhaSprite(g,
+                      a.getX(),
+                      a.getY(),
+                      i,
+                      frameAtual,
+                      getTipoSprite(a));
 		
 		if(arena.isDebug()) {
 			g.setColor(Color.GREEN);
-			g.fillRect(a.getX() + getTamanho(a, LARGURA)/2 - 3, a.getY() + getTamanho(a, ALTURA)/2 - 3, 6, 6);
+			g.fillRect(a.getX() + getTamanho(a, LARGURA)/2 - 3,
+                       a.getY() + getTamanho(a, ALTURA)/2 - 3 + offsetY,
+                       6,
+                       6);
 		}
 	}
 	
@@ -302,11 +348,23 @@ public class DesenhistaSimples2D extends JFrame implements Desenhista
 	}
 	
 	private void desenhaPontoEnergia(Graphics g, PontoEnergia p) {
-		g.drawImage(imgPontosEnergia, p.getX(), p.getY(), p.getX()+50, p.getY()+60, 55, 0, 90, 60, null);
+		g.drawImage(imgPontosEnergia,
+                    p.getX(),
+                    p.getY() + offsetY,
+                    p.getX() + 50,
+                    p.getY() + 60 + offsetY,
+                    55,
+                    0,
+                    90,
+                    60,
+                    null);
 		
 		if(arena.isDebug()) {
 			g.setColor(Color.RED);
-			g.fillRect(p.getX() + getTamanho(p, LARGURA)/2 - 3, p.getY() + getTamanho(p, ALTURA)/2 - 3, 6, 6);
+			g.fillRect(p.getX() + getTamanho(p, LARGURA)/2 - 3,
+                       p.getY() + getTamanho(p, ALTURA)/2 - 3 + offsetY,
+                       6,
+                       6);
 		}
 	}
 	
