@@ -1,0 +1,52 @@
+
+test.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+grass_background
+  rotate: false
+  xy: 1, 323
+  size: 800, 652
+  orig: 800, 652
+  offset: 0, 0
+  index: -1
+messages
+  rotate: false
+  xy: 1, 1
+  size: 924, 320
+  orig: 924, 320
+  offset: 0, 0
+  index: -1
+towers
+  rotate: false
+  xy: 803, 847
+  size: 110, 128
+  orig: 110, 128
+  offset: 0, 0
+  index: -1
+
+test2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+energy
+  rotate: false
+  xy: 1, 580
+  size: 1000, 400
+  orig: 1000, 400
+  offset: 0, 0
+  index: -1
+desert
+  rotate: false
+  xy: 1, 259
+  size: 479, 319
+  orig: 479, 319
+  offset: 0, 0
+  index: -1
+sprites1
+  rotate: false
+  xy: 1, 1
+  size: 384, 256
+  orig: 384, 256
+  offset: 0, 0
+  index: -1

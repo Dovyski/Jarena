@@ -32,6 +32,6 @@ public class AgenteInimigo extends Agente
 	}	
 	
 	public String getEquipe() {
-		return "Inimigo";
+		return "inimigo";
 	}
 }
