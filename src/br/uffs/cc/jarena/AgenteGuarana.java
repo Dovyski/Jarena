@@ -2,7 +2,9 @@ package br.uffs.cc.jarena;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class AgenteGuarana extends Agente {
 
@@ -40,12 +42,17 @@ public class AgenteGuarana extends Agente {
 
     private boolean recebendoEnergia;
     private int turnosSemEnergia;
+    private int sequenciaCogumelo;
+    private int ultimoEnvioCogumelo = -100;
 
     private int alvoCogumeloX = -1;
     private int alvoCogumeloY = -1;
     private int validadeCogumelo;
 
     private final Map<Integer, int[]> aliados = new HashMap<Integer, int[]>();
+    private final Set<String> eventosRecebidos = new HashSet<String>();
+    private final ArrayList<String> ordemEventos = new ArrayList<String>();
+    private final Map<String, Integer> ultimoReenvio = new HashMap<String, Integer>();
 
     public AgenteGuarana(Integer x, Integer y, Integer energia) {
         super(x, y, energia);
@@ -269,6 +276,56 @@ public class AgenteGuarana extends Agente {
         }
     }
 
+    private void processaCogumelo(String[] partes) {
+        int origem = Integer.parseInt(partes[1]);
+        int sequencia = Integer.parseInt(partes[2]);
+        int x = Integer.parseInt(partes[3]);
+        int y = Integer.parseInt(partes[4]);
+        int energia = Integer.parseInt(partes[5]);
+        int saltos = Integer.parseInt(partes[6]);
+
+        if (origem == getId()) {
+            return;
+        }
+
+        String evento = "C:" + origem + ":" + sequencia;
+        boolean novo = registrarEvento(evento);
+
+        Integer ultimo = ultimoReenvio.get(evento);
+        if (saltos < 1 && (novo || ultimo == null || turno - ultimo >= 8)) {
+            ultimoReenvio.put(evento, turno);
+            enviaMensagem("C|" + origem + "|" + sequencia + "|" + x + "|" + y
+                    + "|" + energia + "|" + (saltos + 1));
+        }
+
+        boolean designado = papel == COLETOR
+                && Math.abs(getId() % 2) == Math.abs(origem % 2);
+        boolean proximo = distancia(x, y) <= 80;
+
+        if (energia < 1800 && (designado || proximo)) {
+            alvoCogumeloX = x;
+            alvoCogumeloY = y;
+            validadeCogumelo = 18;
+        }
+    }
+
+    private boolean registrarEvento(String evento) {
+        if (eventosRecebidos.contains(evento)) {
+            return false;
+        }
+
+        eventosRecebidos.add(evento);
+        ordemEventos.add(evento);
+
+        if (ordemEventos.size() > 40) {
+            String antigo = ordemEventos.remove(0);
+            eventosRecebidos.remove(antigo);
+            ultimoReenvio.remove(antigo);
+        }
+
+        return true;
+    }
+
     private int distancia(int x, int y) {
         return distancia(getX(), getY(), x, y);
     }
@@ -279,10 +336,20 @@ public class AgenteGuarana extends Agente {
 
     @Override
     public void recebeuEnergia() {
+        if (!recebendoEnergia) {
+            sequenciaCogumelo++;
+        }
+
         recebendoEnergia = true;
         turnosSemEnergia = 0;
         alvoCogumeloX = getX();
         alvoCogumeloY = getY();
+
+        if (turno - ultimoEnvioCogumelo >= 5) {
+            ultimoEnvioCogumelo = turno;
+            enviaMensagem("C|" + getId() + "|" + sequenciaCogumelo + "|"
+                    + getX() + "|" + getY() + "|" + getEnergia() + "|0");
+        }
     }
 
     @Override
@@ -312,6 +379,11 @@ public class AgenteGuarana extends Agente {
                     info[3] = turno;
                     aliados.put(id, info);
                 }
+                return;
+            }
+
+            if (partes[0].equals("C") && partes.length == 7) {
+                processaCogumelo(partes);
                 return;
             }
         } catch (Exception ignored) {
