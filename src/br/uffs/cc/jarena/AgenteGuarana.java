@@ -6,6 +6,14 @@ public class AgenteGuarana extends Agente {
     private static final int COMBATENTE = 1;
     private static final int COLETOR = 2;
 
+    /**
+     * Energia que cada agente aceita gastar se movimentando antes de virar
+     * sentinela permanente. Andar custa 3 de energia por turno (viver + andar)
+     * e ficar parado custa 1, entao cada unidade gasta andando custa o triplo
+     * de tempo de vida. Valor definido por medicao (ver ESTRATEGIA.md).
+     */
+    private static final int ORCAMENTO_EXPLORACAO = 50;
+
     private final int papel;
 
     private final int setorMinX;
@@ -15,8 +23,11 @@ public class AgenteGuarana extends Agente {
     private final int centroSetorX;
     private final int centroSetorY;
 
+    private final int energiaInicial;
+
     private int turno;
     private boolean primeiroTurno = true;
+    private boolean aposentado;
 
     private boolean varreduraHorizontal = true;
     private int direcaoHorizontal;
@@ -53,6 +64,8 @@ public class AgenteGuarana extends Agente {
         direcaoHorizontal = getId() % 2 == 0 ? DIREITA : ESQUERDA;
         direcaoVertical = getId() % 4 < 2 ? BAIXO : CIMA;
         setDirecao(direcaoHorizontal);
+
+        energiaInicial = getEnergia();
     }
 
     @Override
@@ -62,6 +75,15 @@ public class AgenteGuarana extends Agente {
 
         if (primeiroTurno) {
             primeiroTurno = false;
+            para();
+            return;
+        }
+
+        if (!aposentado && getEnergia() < energiaInicial - ORCAMENTO_EXPLORACAO) {
+            aposentado = true;
+        }
+
+        if (aposentado) {
             para();
             return;
         }
