@@ -59,6 +59,9 @@ public class AgenteGuarana extends Agente {
     private int validadeCombate;
     private boolean jaDividiuNoCombate;
 
+    private int recuoTicks;
+    private int direcaoRecuo;
+
     private final Map<Integer, int[]> aliados = new HashMap<Integer, int[]>();
     private final Set<String> eventosRecebidos = new HashSet<String>();
     private final ArrayList<String> ordemEventos = new ArrayList<String>();
@@ -123,7 +126,16 @@ public class AgenteGuarana extends Agente {
                 return;
             }
 
-            para();
+            if (deveRecuar()) {
+                iniciaRecuo();
+            } else {
+                para();
+                return;
+            }
+        }
+
+        if (recuoTicks > 0) {
+            executaRecuo();
             return;
         }
 
@@ -228,6 +240,56 @@ public class AgenteGuarana extends Agente {
                 && energiaInimigo <= 350
                 && getEnergia() >= energiaInimigo * 2 + 100
                 && podeDividir();
+    }
+
+    private boolean deveRecuar() {
+        return turnosCombate >= 8
+                && energiaInimigo > getEnergia() + 120
+                && aliadosProximos(combateX, combateY) == 0;
+    }
+
+    private int aliadosProximos(int x, int y) {
+        int quantidade = 0;
+
+        for (int[] info : aliados.values()) {
+            if (turno - info[3] <= 10 && distancia(info[0], info[1], x, y) <= 100) {
+                quantidade++;
+            }
+        }
+
+        return quantidade;
+    }
+
+    private void iniciaRecuo() {
+        int atual = getDirecao();
+        direcaoRecuo = atual >= DIREITA && atual <= BAIXO
+                ? direcaoOposta(atual) : direcaoParaCentro();
+
+        if (!podeMoverPara(direcaoRecuo)) {
+            direcaoRecuo = direcaoParaCentro();
+        }
+
+        recuoTicks = 8;
+        emCombate = false;
+        validadeCombate = 0;
+        turnosCombate = 0;
+        jaDividiuNoCombate = false;
+        setDirecao(direcaoRecuo);
+        enviaMensagem("R|" + getId() + "|" + getX() + "|" + getY());
+    }
+
+    private void executaRecuo() {
+        if (podeMoverPara(direcaoRecuo)) {
+            setDirecao(direcaoRecuo);
+        } else {
+            direcaoRecuo = direcaoParaCentro();
+            if (podeMoverPara(direcaoRecuo)) {
+                setDirecao(direcaoRecuo);
+            } else {
+                para();
+            }
+        }
+        recuoTicks--;
     }
 
     private boolean estaDentroDoSetor() {
@@ -511,6 +573,18 @@ public class AgenteGuarana extends Agente {
                     validadeCombate = 0;
                 }
                 return;
+            }
+
+            if (partes[0].equals("R") && partes.length == 4) {
+                int id = Integer.parseInt(partes[1]);
+                if (id != getId()) {
+                    int[] info = new int[4];
+                    info[0] = Integer.parseInt(partes[2]);
+                    info[1] = Integer.parseInt(partes[3]);
+                    info[2] = 0;
+                    info[3] = turno;
+                    aliados.put(id, info);
+                }
             }
         } catch (Exception ignored) {
         }
