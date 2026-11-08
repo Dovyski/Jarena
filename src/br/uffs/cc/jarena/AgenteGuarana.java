@@ -1,5 +1,9 @@
 package br.uffs.cc.jarena;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 public class AgenteGuarana extends Agente {
 
     private static final int EXPLORADOR = 0;
@@ -41,6 +45,8 @@ public class AgenteGuarana extends Agente {
     private int alvoCogumeloY = -1;
     private int validadeCogumelo;
 
+    private final Map<Integer, int[]> aliados = new HashMap<Integer, int[]>();
+
     public AgenteGuarana(Integer x, Integer y, Integer energia) {
         super(x, y, energia);
 
@@ -72,6 +78,7 @@ public class AgenteGuarana extends Agente {
     public void pensa() {
         turno++;
         atualizaTemporizadores();
+        removeAliadosAntigos();
 
         if (primeiroTurno) {
             primeiroTurno = false;
@@ -86,6 +93,10 @@ public class AgenteGuarana extends Agente {
         if (aposentado) {
             para();
             return;
+        }
+
+        if (turno % 8 == 0) {
+            enviaPosicao();
         }
 
         // Recebendo energia: nao sai do lugar de jeito nenhum. Parado em cima
@@ -130,6 +141,24 @@ public class AgenteGuarana extends Agente {
 
         if (validadeCogumelo > 0) {
             validadeCogumelo--;
+        }
+    }
+
+    private void enviaPosicao() {
+        enviaMensagem("P|" + getId() + "|" + getX() + "|" + getY() + "|" + getEnergia());
+    }
+
+    private void removeAliadosAntigos() {
+        ArrayList<Integer> remover = new ArrayList<Integer>();
+
+        for (Map.Entry<Integer, int[]> entrada : aliados.entrySet()) {
+            if (turno - entrada.getValue()[3] > 15) {
+                remover.add(entrada.getKey());
+            }
+        }
+
+        for (Integer id : remover) {
+            aliados.remove(id);
         }
     }
 
@@ -266,6 +295,27 @@ public class AgenteGuarana extends Agente {
 
     @Override
     public void recebeuMensagem(String msg) {
+        if (msg == null) {
+            return;
+        }
+
+        String[] partes = msg.split("\\|");
+
+        try {
+            if (partes[0].equals("P") && partes.length == 5) {
+                int id = Integer.parseInt(partes[1]);
+                if (id != getId()) {
+                    int[] info = new int[4];
+                    info[0] = Integer.parseInt(partes[2]);
+                    info[1] = Integer.parseInt(partes[3]);
+                    info[2] = Integer.parseInt(partes[4]);
+                    info[3] = turno;
+                    aliados.put(id, info);
+                }
+                return;
+            }
+        } catch (Exception ignored) {
+        }
     }
 
     @Override
