@@ -49,6 +49,16 @@ public class AgenteGuarana extends Agente {
     private int alvoCogumeloY = -1;
     private int validadeCogumelo;
 
+    private boolean emCombate;
+    private int combateX;
+    private int combateY;
+    private int energiaInimigo;
+    private int turnosCombate;
+    private int turnosSemDano;
+    private int sequenciaCombate;
+    private int validadeCombate;
+    private boolean jaDividiuNoCombate;
+
     private final Map<Integer, int[]> aliados = new HashMap<Integer, int[]>();
     private final Set<String> eventosRecebidos = new HashSet<String>();
     private final ArrayList<String> ordemEventos = new ArrayList<String>();
@@ -106,6 +116,22 @@ public class AgenteGuarana extends Agente {
             enviaPosicao();
         }
 
+        if (emCombate) {
+            if (deveDividir()) {
+                jaDividiuNoCombate = true;
+                divide();
+                return;
+            }
+
+            para();
+            return;
+        }
+
+        if (validadeCombate > 0 && deveAtenderCombate()) {
+            moverParaCoordenada(combateX, combateY);
+            return;
+        }
+
         // Recebendo energia: nao sai do lugar de jeito nenhum. Parado em cima
         // de um ponto o saldo e de +4 por turno, o melhor do jogo.
         if (recebendoEnergia) {
@@ -146,8 +172,21 @@ public class AgenteGuarana extends Agente {
             }
         }
 
+        if (emCombate) {
+            turnosSemDano++;
+            if (turnosSemDano > 2) {
+                emCombate = false;
+                turnosCombate = 0;
+                jaDividiuNoCombate = false;
+            }
+        }
+
         if (validadeCogumelo > 0) {
             validadeCogumelo--;
+        }
+
+        if (validadeCombate > 0) {
+            validadeCombate--;
         }
     }
 
@@ -174,6 +213,21 @@ public class AgenteGuarana extends Agente {
             return distancia(alvoCogumeloX, alvoCogumeloY) <= 70;
         }
         return true;
+    }
+
+    private boolean deveAtenderCombate() {
+        int distancia = distancia(combateX, combateY);
+        return papel == COMBATENTE || distancia <= 100;
+    }
+
+    private boolean deveDividir() {
+        return !jaDividiuNoCombate
+                && turnosCombate >= 2
+                && getEnergia() >= 700
+                && getEnergia() <= 1300
+                && energiaInimigo <= 350
+                && getEnergia() >= energiaInimigo * 2 + 100
+                && podeDividir();
     }
 
     private boolean estaDentroDoSetor() {
@@ -302,10 +356,45 @@ public class AgenteGuarana extends Agente {
                 && Math.abs(getId() % 2) == Math.abs(origem % 2);
         boolean proximo = distancia(x, y) <= 80;
 
-        if (energia < 1800 && (designado || proximo)) {
+        if (!emCombate && energia < 1800 && (designado || proximo)) {
             alvoCogumeloX = x;
             alvoCogumeloY = y;
             validadeCogumelo = 18;
+        }
+    }
+
+    private void processaCombate(String[] partes) {
+        int origem = Integer.parseInt(partes[1]);
+        int sequencia = Integer.parseInt(partes[2]);
+        int x = Integer.parseInt(partes[3]);
+        int y = Integer.parseInt(partes[4]);
+        int energiaAliado = Integer.parseInt(partes[5]);
+        int energiaInimigoRecebida = Integer.parseInt(partes[6]);
+        int saltos = Integer.parseInt(partes[7]);
+
+        if (origem == getId()) {
+            return;
+        }
+
+        String evento = "B:" + origem + ":" + sequencia;
+        boolean novo = registrarEvento(evento);
+
+        Integer ultimo = ultimoReenvio.get(evento);
+        if (saltos < 2 && (novo || ultimo == null || turno - ultimo >= 4)) {
+            ultimoReenvio.put(evento, turno);
+            enviaMensagem("B|" + origem + "|" + sequencia + "|" + x + "|" + y
+                    + "|" + energiaAliado + "|" + energiaInimigoRecebida + "|" + (saltos + 1));
+        }
+
+        int distancia = distancia(x, y);
+        boolean deveIr = papel == COMBATENTE || distancia <= 100;
+
+        if (deveIr && getEnergia() >= 220) {
+            combateX = x;
+            combateY = y;
+            energiaInimigo = energiaInimigoRecebida;
+            validadeCombate = 12;
+            validadeCogumelo = 0;
         }
     }
 
@@ -354,10 +443,33 @@ public class AgenteGuarana extends Agente {
 
     @Override
     public void tomouDano(int energiaRestanteInimigo) {
+        if (!emCombate) {
+            sequenciaCombate++;
+            turnosCombate = 0;
+            jaDividiuNoCombate = false;
+        }
+
+        emCombate = true;
+        turnosSemDano = 0;
+        turnosCombate++;
+        combateX = getX();
+        combateY = getY();
+        energiaInimigo = energiaRestanteInimigo;
+
+        if (turnosCombate == 1 || turnosCombate % 3 == 1) {
+            enviaMensagem("B|" + getId() + "|" + sequenciaCombate + "|"
+                    + getX() + "|" + getY() + "|" + getEnergia() + "|"
+                    + energiaRestanteInimigo + "|0");
+        }
     }
 
     @Override
     public void ganhouCombate() {
+        emCombate = false;
+        validadeCombate = 0;
+        turnosCombate = 0;
+        jaDividiuNoCombate = false;
+        enviaMensagem("V|" + getId() + "|" + getX() + "|" + getY());
     }
 
     @Override
@@ -384,6 +496,20 @@ public class AgenteGuarana extends Agente {
 
             if (partes[0].equals("C") && partes.length == 7) {
                 processaCogumelo(partes);
+                return;
+            }
+
+            if (partes[0].equals("B") && partes.length == 8) {
+                processaCombate(partes);
+                return;
+            }
+
+            if (partes[0].equals("V") && partes.length == 4) {
+                int x = Integer.parseInt(partes[2]);
+                int y = Integer.parseInt(partes[3]);
+                if (validadeCombate > 0 && distancia(combateX, combateY, x, y) <= 50) {
+                    validadeCombate = 0;
+                }
                 return;
             }
         } catch (Exception ignored) {
